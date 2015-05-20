@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var sassMiddleware = require('node-sass-middleware');
 var path = require('path');
+var bourbon = require('node-bourbon');
 
 app.use('/bundle.js', browserify('./index.js', {
   transform: ['reactify'],
@@ -13,7 +14,8 @@ app.use(sassMiddleware({
   src: path.join(__dirname, 'css'),
   dest: path.join(__dirname, 'public'),
   debug: true,
-  outputStyle: 'compressed'
+  outputStyle: 'compressed',
+  includePaths: bourbon.includePaths
 }));
 
 app.use(express.static(__dirname + '/public'));

@@ -12,12 +12,17 @@
   "dependencies": {
     "browserify": "^10.2.1",
     "jsonwebtoken": "^5.0.1",
+    "level-browserify": "^0.19.1",
+    "level-js": "^2.1.6",
+    "levelup": "^1.1.0",
     "lodash": "^3.8.0",
+    "node-bourbon": "^4.2.2",
     "node-rsa": "^0.2.23",
     "react": "^0.13.3",
     "reactify": "^1.1.1",
     "signalhub": "git://github.com/scenevr/signalhub",
-    "simple-peer": "^5.8.0"
+    "simple-peer": "^5.8.0",
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
     "browserify-middleware": "^5.0.2",

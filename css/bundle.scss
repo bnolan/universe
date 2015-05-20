@@ -1,5 +1,10 @@
+@import "bourbon";
 
 body{
   background: red;
   color: white;
+}
+
+div{
+  @include linear-gradient(to top, red, orange);
 }
