@@ -1,5 +1,5 @@
-
 var React = require('react');
+var Post = require('./post');
 
 module.exports = React.createClass({
   displayName: 'Feed',
@@ -18,14 +18,9 @@ module.exports = React.createClass({
 
         {posts.map(function (result) {
           return (
-            <div className='post'>
-              <h3>{ result.author.name }</h3>
-              { result.content }
-              <small>{ result.createdAt }</small>
-            </div>
+            <Post author={result.author} content={result.content} createdAt={result.createdAt} />
           );
         })}
-
       </div>
     );
   }
