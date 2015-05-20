@@ -11,7 +11,14 @@ peer1.on('signal', function (data) {
   window.deets.push(data);
 });
 
+var feed = {
+  name: 'Mr Peabody',
+  posts: [
+    { content: 'hello world', createdAt: new Date().getTime(), author: { name: 'Mr Snow'}}
+  ]
+};
+
 React.render(
-  <Feed name='Mr Peabody' />,
+  <Feed name={feed.name} posts={feed.posts} />,
   document.getElementById('main')
 );
