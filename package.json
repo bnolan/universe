@@ -4,22 +4,26 @@
   "description": "p2p social network",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "semistandard && tape tests/*.js"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "browserify": "^10.2.1",
     "jsonwebtoken": "^5.0.1",
-    "jwt-simple": "^0.3.0",
-    "keypair": "^1.0.0",
     "lodash": "^3.8.0",
     "node-rsa": "^0.2.23",
+    "react": "^0.13.3",
+    "reactify": "^1.1.1",
     "signalhub": "git://github.com/scenevr/signalhub",
-    "simple-peer": "^5.8.0",
-    "ssh-fingerprint": "0.0.1",
-    "underscore": "^1.8.3"
+    "simple-peer": "^5.8.0"
   },
   "devDependencies": {
+    "browserify-middleware": "^5.0.2",
+    "express": "^4.12.4",
+    "node-sass-middleware": "^0.7.0",
+    "semistandard": "^4.2.0",
     "tape": "^4.0.0",
     "zuul": "^3.0.0"
   }
