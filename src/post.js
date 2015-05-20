@@ -9,10 +9,10 @@ module.exports = React.createClass({
     createdAt: React.PropTypes.string
   },
 
-  render: function() {
+  render: function () {
     return (
-      <div className="post">
-        <h3 className="postAuthor">
+      <div className='post'>
+        <h3 className='postAuthor'>
           {this.props.author.name}
         </h3>
         { this.props.content }
