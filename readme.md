@@ -1,4 +1,4 @@
-# dizzle
+# Uni{verse}
 
 P2P Social network
 
