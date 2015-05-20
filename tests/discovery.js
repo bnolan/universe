@@ -4,16 +4,11 @@ var NodeRSA = require('node-rsa');
 var fingerprint = require('../fingerprint');
 var client = require('signalhub');
 var tape = require('tape');
-// var jwt = require('jsonwebtoken');
-var jwt = require('jwt-simple');
+var jwt = require('jsonwebtoken');
 var _ = require('lodash');
 var SimplePeer = require('simple-peer');
-var keypair = require('keypair');
 
-// var discovery = require('../src/discovery');
-// var announce = require('../src/announce');
-
-var sesssionDescription = {"sdp":"v=0\r\no=- 3927647672834917781 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=msid-semantic: WMS\r\nm=application 9 DTLS/SCTP 5000\r\nc=IN IP4 0.0.0.0\r\na=ice-ufrag:d2955cG0yboKSi+x\r\na=ice-pwd:2xAc/fJcFs7Jm2ESzNxZqjf0\r\na=ice-options:google-ice\r\na=fingerprint:sha-256 09:29:D2:95:95:7C:57:B8:7C:AA:6B:F9:90:20:02:5B:13:FD:8E:BD:D2:38:43:FD:C3:B3:31:D0:BC:F5:00:A0\r\na=setup:actpass\r\na=mid:data\r\na=sctpmap:5000 webrtc-datachannel 1024\r\n","type":"offer"};
+var sesssionDescription = {'sdp': 'v=0\r\no=.....'};
 
 var fixtures = [];
 
@@ -67,14 +62,6 @@ tape('generate keys', function (t) {
   function generateKey () {
     var key = new NodeRSA({b: 512});
 
-    // var message = jwt.encode({ hello: 'world' }, key.exportKey('private'), 'RS256');
-    // try {
-    //   console.log(jwt.decode(message, key.exportKey('public')));
-    // } catch (e) {
-    //   console.log(e);
-    //   throw new Error('Stupid jwt / nodeRSA bug');
-    // }
-
     fixtures.push({
       publicKey: key.exportKey('pkcs8-public'),
       privateKey: key.exportKey('pkcs8-private'),
@@ -82,31 +69,9 @@ tape('generate keys', function (t) {
     });
   }
 
-  /*
-  function generateKey () {
-    var key = keypair({ bits: 512 });
-
-    var message = jwt.encode({ hello: 'world' }, key.private, 'RS256');
-    try {
-      jwt.verify(message, key.public);
-    } catch (e) {
-      throw new Error('Stupid jwt / nodeRSA bug');
-    }
-
-    fixtures.push({
-      publicKey: key.public,
-      privateKey: key.private,
-      pkf: fingerprint(key.public, 'sha1')
-    });
-  }
-  */
-
   for (var x = 0; x < 10; x++) {
     generateKey();
   };
-
-  console.log(fixtures);
-
 
   t.end();
 });
