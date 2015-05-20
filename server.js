@@ -5,7 +5,8 @@ var sassMiddleware = require('node-sass-middleware');
 var path = require('path');
 
 app.use('/bundle.js', browserify('./index.js', {
-  transform: ['reactify']
+  transform: ['reactify'],
+  debug: true
 }));
 
 app.use(sassMiddleware({
