@@ -71,7 +71,7 @@ tape('generate keys', function (t) {
 
   for (var x = 0; x < 10; x++) {
     generateKey();
-  };
+  }
 
   t.end();
 });
