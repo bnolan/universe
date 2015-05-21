@@ -1,9 +1,18 @@
 var React = require('react');
 var postMessage = require('./post-message');
-var User = require('./user')
+var User = require('./user');
+var Myself = require('./myself');
 
 module.exports = React.createClass({
   displayName: 'PostForm',
+
+  createOnEnter: function (e) {
+    var enterKey = 13;
+
+    if (e.which === enterKey) {
+      this.handleSubmit(e);
+    }
+  },
 
   handleSubmit: function (e) {
     e.preventDefault();
@@ -13,20 +22,20 @@ module.exports = React.createClass({
     }
 
     React.findDOMNode(this.refs.content).value = '';
-    var myself = new User({
-      name: 'Ben Nolan',
-      pkf: '12:12:12:...'
-    });
+    var myself = Myself();
+
     var post = {
       author: myself.toJson(),
       content: content
     };
+
     postMessage(post);
+    sendMessage(post);
   },
 
   render: function () {
     return (
-      <form className='postForm' onSubmit={this.handleSubmit}>
+      <form className='post-form' onSubmit={this.handleSubmit} onKeyPress={this.createOnEnter}>
         <h3>New Post</h3>
         <textarea placeholder='Say something...' ref='content' /><br />
         <input type='submit' value='Post' className="btn" />

@@ -47,3 +47,32 @@ header {
   font-size: 1.1em;
   border: none;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+.tabs {
+  height: 32px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
+
+  li:first-child {
+    border-bottom: 1px solid white;
+  }
+
+  li {
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    line-height: 30px;
+    padding: 0 15px;
+    display: inline-block;
+    cursor: pointer;
+    background: white;
+
+    &:hover {
+      border-color: black;
+      text-decoration: underline;
+    }
+  }
+}

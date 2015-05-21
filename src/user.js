@@ -1,4 +1,5 @@
-var _ = require('lodash');
+var _ = require('underscore');
+var fingerprint = require('./fingerprint');
 
 function User (args) {
   _.assign(this, args);
@@ -7,6 +8,13 @@ function User (args) {
 
 User.prototype.toJson = function () {
   return { name: this.name, pkf: this.pkf };
+};
+
+User.fromName = function (name) {
+  return new User({
+    pkf: name, // fingerprint(name),
+    name: name
+  });
 };
 
 module.exports = User;

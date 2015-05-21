@@ -6,22 +6,17 @@ module.exports = React.createClass({
   displayName: 'Feed',
 
   propTypes: {
-    name: React.PropTypes.string,
-    posts: React.PropTypes.object
+    posts: React.PropTypes.array
   },
 
   render: function () {
-    var posts = this.props.posts.sortBy(function (post) {
-      return -post.get('createdAt');
-    });
-
     return (
       <div>
-        <h1>{this.props.name}</h1>
+        <h1>Newsfeed</h1>
 
         <PostForm />
 
-        {posts.map(function (result) {
+        {this.props.posts.map(function (result) {
           return <PostView key={result.id} data={result.attributes} />;
         })}
       </div>
