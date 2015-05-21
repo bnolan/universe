@@ -8,7 +8,10 @@ module.exports = function (message) {
   message.createdAt = createdAt;
   message.id = uuid.v1();
 
-  window.posts.add(new PostModel(message));
+  if (!message.author) {
+    throw new Error('Invalid post, no author.');
+  }
 
-  db.put(message.id, JSON.stringify(message));
+  window.posts.create(new PostModel(message));
+  // db.put(message.id, JSON.stringify(message));
 };

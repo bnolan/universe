@@ -10,32 +10,36 @@ module.exports = React.createClass({
     friends: React.PropTypes.object
   },
 
+  onTerminate: function (id) {
+    console.log(id);
+  },
+
   handleSubmit: function (e) {
     e.preventDefault();
 
-    var user = new User({
-      name: React.findDOMNode(this.refs.name).value.trim(),
-      pkf: React.findDOMNode(this.refs.pkf).value.trim()
-    });
-
-    this.props.friends.add(new User)
+    // var user = new User({
+    //   name: React.findDOMNode(this.refs.name).value.trim(),
+    //   pkf: React.findDOMNode(this.refs.pkf).value.trim()
+    // });
   },
 
   render: function () {
+    var self = this;
+    
     return (
       <div>
         <h1>Newsfeed</h1>
 
-        <form onsubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <label>Name</label>
-          <input ref="name" type="text" />
+          <input ref='name' type='text' />
           <br />
 
           <label>PKF</label>
-          <input ref="pkf" type="text" />
+          <input ref='pkf' type='text' />
           <br />
 
-          <input type="submit" value="Add friend" />
+          <input type='submit' value='Add friend' />
         </form>
 
         <table>
@@ -46,10 +50,10 @@ module.exports = React.createClass({
           </tr>
         {this.props.friends.map(function (friend) {
           return (
-            <tr>
+            <tr key={friend.id}>
               <td>{ friend.get('name') }</td>
               <td>{ friend.get('pkf') }</td>
-              <td><button>Terminate friendship</button></td>
+              <td><button onClick={self.onTerminate.bind(self, friend.id)}>Terminate friendship</button></td>
             </tr>
           );
         })}
