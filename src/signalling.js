@@ -1,6 +1,7 @@
 var SignalHub = require('signalhub');
 var SimplePeer = require('simple-peer');
 var myself = require('./myself')();
+var postMessage = require('./post-message');
 
 var hub = SignalHub(
     '192.155.85.161:9010',
@@ -41,6 +42,7 @@ var registerPeer = function (data) {
 
     newPeer.on('data', function (data) {
       console.log('data: ' + data);
+      postMessage(data);
     });
 
     newPeer.on('signal', function (data) {
@@ -69,6 +71,7 @@ var Signalling = {
     console.log('Creating peers and publishing to signalhub for', friends.join(', '));
     friends.forEach(function (friend) {
       var peer = new SimplePeer( { initiator: true });
+
       peer.on('signal', function (data) {
         console.log('sending a initiator signal to', friend);
         hub.broadcast('/' + friend, JSON.stringify({name: myself.name, data: data, initiator: true}));
@@ -82,6 +85,7 @@ var Signalling = {
 
       peer.on('data', function (data) {
         console.log('data: ' + data);
+        postMessage(data);
       });
 
       peers[friend] = peer;

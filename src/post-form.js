@@ -30,6 +30,7 @@ module.exports = React.createClass({
     };
 
     postMessage(post);
+    sendMessage(post);
   },
 
   render: function () {
