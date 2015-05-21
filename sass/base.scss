@@ -12,13 +12,17 @@ body {
 }
 
 header {
+  border-top: 50px solid black;
+  box-shadow: 0 0 5px black;
   background: url("/images/space-bg.jpg") $dark-gray;
   background-size: cover;
-  height: 300px;
+  height: 120px;
   margin-bottom: 40px;
   padding-top: 10px;
   .header-inner {
     @include outer-container;
+    position: relative;
+    top: -50px;
   }
   nav {
     color: $light-gray;
