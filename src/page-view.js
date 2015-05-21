@@ -12,6 +12,16 @@ module.exports = React.createClass({
     };
   },
 
+  showFeed: function () {
+    this.state.tab = 'feed';
+    this.render();
+  },
+
+  showSettings: function () {
+    this.state.tab = 'settings';
+    this.render();
+  },
+
   render: function () {
     var myself = Myself();
     var content;

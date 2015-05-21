@@ -1,6 +1,7 @@
 var React = require('react');
 var postMessage = require('./post-message');
-var User = require('./user')
+var User = require('./user');
+var Myself = require('./myself');
 
 module.exports = React.createClass({
   displayName: 'PostForm',
@@ -13,20 +14,19 @@ module.exports = React.createClass({
     }
 
     React.findDOMNode(this.refs.content).value = '';
-    var myself = new User({
-      name: 'Ben Nolan',
-      pkf: '12:12:12:...'
-    });
+    var myself = Myself();
+
     var post = {
       author: myself.toJson(),
       content: content
     };
+
     postMessage(post);
   },
 
   render: function () {
     return (
-      <form className='postForm' onSubmit={this.handleSubmit}>
+      <form className='post-form' onSubmit={this.handleSubmit}>
         <h3>New Post</h3>
         <textarea placeholder='Say something...' ref='content' /><br />
         <input type='submit' value='Post' />
