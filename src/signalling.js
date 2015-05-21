@@ -4,9 +4,9 @@ var myself = require('./myself')();
 var postMessage = require('./post-message');
 
 var hub = SignalHub(
-    '192.155.85.161:9010',
-    'universe'
-    );
+  '192.155.85.161:9010',
+  'universe'
+);
 
 var registerPeer = function (data) {
   var friend = data.name;
@@ -21,17 +21,25 @@ var registerPeer = function (data) {
 
   if (peers[friend]) {
     console.log("Found existing peer ", friend);
-    if (initiator && peers[friend].initiator) {
-      console.log("Received intiator connection from", friend, ", cleaning up old initiator connection");
-      delete peers[friend];
+    if (initiator) {
+      if (peers[friend].initiator) {
+        console.log("Received intiator connection from", friend, ", cleaning up old initiator connection");
+        delete peers[friend];
+      }
     } else {
-      console.log("Received non initiator connection from", friend, ", using existing peer");
+      if (peers[friend].initiator == false) {
+        console.log("Received intiator connection from", friend, ", cleaning up old non-initiator connection");
+        delete peers[friend];
+      }
+    }
+
+    if (peers[friend]) {
       newPeer = peers[friend];
-    };
+    }
   }
 
   if (!newPeer) {
-    console.log("Created new peer for ", friend);
+    console.log("Created new peer for", friend);
     peers[friend] = newPeer = new SimplePeer();
 
     newPeer.on('error', function (err) { console.log(friend, 'error', err) });
