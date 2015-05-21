@@ -1,5 +1,6 @@
 var React = require('react');
 var Post = require('./post');
+var PostForm = require('./post_form');
 
 module.exports = React.createClass({
   displayName: 'Feed',
@@ -21,6 +22,7 @@ module.exports = React.createClass({
             <Post author={result.author} content={result.content} createdAt={result.createdAt} />
           );
         })}
+        <PostForm />
       </div>
     );
   }
