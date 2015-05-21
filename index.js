@@ -31,7 +31,7 @@ if (myself) {
         <Settings data={myself} />
         <Feed name={myself.name} posts={feed.posts} />
       </div>,
-      document.getElementById('main')
+      document.getElementById('main_container')
     );
   }
 
@@ -59,6 +59,6 @@ if (myself) {
     <div>
       <Settings />
     </div>,
-    document.getElementById('main')
+    document.getElementById('main_container')
   );
 }
