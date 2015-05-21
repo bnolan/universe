@@ -5,6 +5,14 @@ var User = require('./user')
 module.exports = React.createClass({
   displayName: 'PostForm',
 
+  createOnEnter: function (e) {
+    var enterKey = 13;
+
+    if (e.which === enterKey) {
+      this.handleSubmit(e);
+    }
+  },
+
   handleSubmit: function (e) {
     e.preventDefault();
     var content = React.findDOMNode(this.refs.content).value.trim();
@@ -26,7 +34,7 @@ module.exports = React.createClass({
 
   render: function () {
     return (
-      <form className='postForm' onSubmit={this.handleSubmit}>
+      <form className='postForm' onSubmit={this.handleSubmit} onKeyPress={this.createOnEnter}>
         <h3>New Post</h3>
         <textarea placeholder='Say something...' ref='content' /><br />
         <input type='submit' value='Post' />
