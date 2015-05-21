@@ -3,10 +3,10 @@ var React = require('react');
 module.exports = React.createClass({
   displayName: 'PostForm',
 
-  handleSubmit: function(e) {
+  handleSubmit: function (e) {
     e.preventDefault();
     var content = React.findDOMNode(this.refs.content).value.trim();
-    if ( !content ) {
+    if (!content) {
       return;
     }
     // TODO: send request
@@ -14,7 +14,7 @@ module.exports = React.createClass({
     console.log(content);
   },
 
-  render: function() {
+  render: function () {
     return (
       <form className='postForm' onSubmit={this.handleSubmit}>
         <h3>New Post</h3>
