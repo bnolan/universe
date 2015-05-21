@@ -15,7 +15,7 @@ module.exports = React.createClass({
 
     return (
       <div>
-        <h1>The universe page for {this.props.name}</h1>
+        <h1>{this.props.name}</h1>
 
         {posts.map(function (result) {
           return <Post key={result.id} data={result} />;

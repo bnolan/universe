@@ -9,7 +9,9 @@ module.exports = React.createClass({
         <h3 className='postAuthor'>
           {this.props.data.author.name}
         </h3>
-        { this.props.data.content }
+        <div className='content'>
+          { this.props.data.content }
+        </div>
         <small>{ this.props.data.createdAt }</small>
       </div>
     );

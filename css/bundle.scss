@@ -1,10 +1,40 @@
 @import "bourbon";
 
 body{
-  background: red;
-  color: white;
+  font-family: 'helvetica neue', sans-serif;
+  font-weight: 200;
+  background: #f3f3f3;
+  margin: 0;
+  padding: 0;
 }
 
-div{
-  @include linear-gradient(to top, red, orange);
+header{
+  @include linear-gradient(to top, #eee, #fff);
+  text-align: center;
+  margin: 0;
+  line-height: 50px;
+}
+
+#main{
+  max-width: 600px;
+  margin: auto;
+}
+
+div.post{
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+  margin-bottom: 20px;
+
+  .content{
+    padding: 4px;
+  }
+
+  small{
+    padding: 4px;
+  }
+
+  h3{
+    padding: 4px;
+    @include linear-gradient(to top, #eee, #fff);
+    font: inherit;
+  }
 }
