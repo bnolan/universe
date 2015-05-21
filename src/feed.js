@@ -1,5 +1,5 @@
 var React = require('react');
-var Post = require('./post');
+var PostView = require('./post-view');
 var PostForm = require('./post-form');
 
 module.exports = React.createClass({
@@ -11,16 +11,19 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    var posts = this.props.posts;
+    var posts = this.props.posts.sortBy(function (post) {
+      return -post.get('createdAt');
+    });
 
     return (
       <div>
         <h1>{this.props.name}</h1>
 
-        {posts.map(function (result) {
-          return <Post key={result.id} data={result.attributes} />;
-        })}
         <PostForm />
+
+        {posts.map(function (result) {
+          return <PostView key={result.id} data={result.attributes} />;
+        })}
       </div>
     );
   }

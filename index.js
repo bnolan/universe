@@ -9,6 +9,7 @@ var Settings = require('./src/settings');
 var User = require('./src/user');
 var Myself = require('./src/myself');
 var postMessage = require('./src/post-message');
+var PostModel = require('./src/post-model');
 
 var db = level('./mydb2');
 
@@ -19,11 +20,9 @@ var feed = {
   posts: []
 };
 
-var PostModel = Backbone.Model.extend({
-});
-
 var PostCollection = Backbone.Collection.extend({
-  model: PostModel
+  model: PostModel,
+  comparator: 'createdAt'
 });
 
 window.posts = new PostCollection();
@@ -41,7 +40,7 @@ if (myself) {
     );
   }
 
-  posts.on('add', function () {
+  posts.on('add', function (post) {
     render();
   });
 
