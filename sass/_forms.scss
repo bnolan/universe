@@ -7,6 +7,9 @@ fieldset {
 label {
   font-weight: 600;
   margin-bottom: $small-spacing / 2;
+  float: left;
+  clear: both;
+  width: 100%;
 
   &.required::after {
     content: "*";
@@ -52,9 +55,15 @@ select[multiple=multiple] {
 
 textarea {
   resize: vertical;
+  padding: 10px;
 }
 
-textarea, input { }
+textarea, input[type="text"] { font-size: 1em; min-width: 400px; }
+
+input[type="text"] {
+  font-size: 1em;
+  padding: 3px 10px;
+}
 
 input[type="checkbox"],
 input[type="radio"] {
@@ -71,4 +80,15 @@ select {
   margin-bottom: $base-spacing;
   max-width: 100%;
   width: auto;
+}
+
+.form-row {
+  float: left;
+  clear: both;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.form-actions {
+  margin-top: 20px;
 }

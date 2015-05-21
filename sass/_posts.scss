@@ -6,7 +6,11 @@
   padding: 10px;
   box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
   border-radius: 3px;
+  transition: background .2s linear;
   @include span-columns(12);
+  &:hover {
+    background: #fff;
+  }
 
   .author {
     font-weight: bold;
@@ -23,7 +27,7 @@
 // Post form
 .post-form {
   border: $base-border;
-  background: lighten($light-gray, 2%);
+  background: white;
   margin-bottom: 20px;
   padding: 10px;
   box-sizing: border-box;
