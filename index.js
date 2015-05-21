@@ -92,7 +92,23 @@ function start () {
     });
   });
 
+  cleanUpDeadPeers = function () {
+    var deadPeers = [];
+    var connection;
+
+    for (var peer in peers) {
+      connection = peers[peer];
+      if (!connection._channel) {
+        deadPeers.push(peer);
+      }
+    }
+
+    deadPeers.forEach(function(peer) { delete peers[peer]; });
+  };
+
   window.sendMessage = function (message) {
+    cleanUpDeadPeers();
+
     for (var peer in peers) {
       var connection = peers[peer];
 
