@@ -15,6 +15,8 @@ var PostModel = require('./src/post-model');
 
 var signalling = require('./src/signalling');
 
+var jQuery = require('jquery');
+
 var db = level('./mydb2');
 var myself = Myself();
 
@@ -22,6 +24,8 @@ var PostCollection = Backbone.Collection.extend({
   model: PostModel
 });
 
+// dont judge me
+window.$ = window.jQuery = jQuery;
 window.posts = new PostCollection();
 
 if (myself) {
@@ -48,6 +52,15 @@ if (myself) {
 
   function render () {
     React.render(<PageView />, document.getElementById('main_container'));
+
+    try {
+      $('#main_container').embedly({
+        query: { maxwidth: 500 },
+        key: '90eb0b46c1e146e5afbbe0279e77866b'
+      });
+    } catch (e) {
+      // ... fine.. 
+    }
   }
 
   posts.on('add', function (post) {

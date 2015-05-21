@@ -25,6 +25,17 @@
   background: lighten($light-gray, 2%);
   margin-bottom: 20px;
   padding: 10px;
+  box-sizing: border-box;
+
+  input, textarea{
+    font: inherit;
+  }
+
+  textarea{
+    width: 100%;
+    height: 60px;
+    margin-bottom: 10px;
+  }
 
   @include span-columns(12);
 
