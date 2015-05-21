@@ -1,0 +1,23 @@
+@import "reset";
+@import "variables";
+@import "bourbon";
+@import "neat";
+@import "forms";
+@import "typography";
+
+body {
+  background: $light-gray;
+  color: $dark-gray;
+}
+
+header {
+  background: $dark-gray;
+  nav {
+    
+  }
+}
+
+#main_container {
+  @include outer-container;
+}
+

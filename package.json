@@ -27,6 +27,7 @@
   "devDependencies": {
     "browserify-middleware": "^5.0.2",
     "express": "^4.12.4",
+    "node-neat": "^1.7.1-beta1",
     "node-sass-middleware": "^0.7.0",
     "semistandard": "^4.2.0",
     "tape": "^4.0.0",

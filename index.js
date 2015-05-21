@@ -8,7 +8,6 @@ var Settings = require('./src/settings');
 var User = require('./src/user');
 var Myself = require('./src/myself');
 var postMessage = require('./src/post-message');
-var UserDetails = require('./src/user-details');
 
 
 var db = level('./mydb2');
@@ -26,7 +25,7 @@ var feed = {
 };
 
 if (myself) {
-  var myPeer = new SimplePeer({ initiator: true, trickle: false });
+  var myPeer = new SimplePeer({ initiator: true });
 
   myPeer.on('signal', function(data) {
     console.log('Peer js connection opened, registering with signalhub');
@@ -120,9 +119,9 @@ if (myself) {
         <div>
         <Settings data={myself} />
         <Feed name={myself.name} posts={feed.posts} />
-        </div>,
-        document.getElementById('main')
-        );
+      </div>,
+      document.getElementById('main_container')
+    );
   }
 
   db.createReadStream()
@@ -148,7 +147,7 @@ if (myself) {
   React.render(
       <div>
       <Settings />
-      </div>,
-      document.getElementById('main')
-      );
+    </div>,
+    document.getElementById('main_container')
+  );
 }
