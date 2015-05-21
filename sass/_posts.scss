@@ -4,8 +4,13 @@
   background: lighten($light-gray, 2%);
   margin-bottom: 20px;
   padding: 10px;
-
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+  border-radius: 3px;
+  transition: background .2s linear;
   @include span-columns(12);
+  &:hover {
+    background: #fff;
+  }
 
   .author {
     font-weight: bold;
@@ -22,7 +27,7 @@
 // Post form
 .post-form {
   border: $base-border;
-  background: lighten($light-gray, 2%);
+  background: white;
   margin-bottom: 20px;
   padding: 10px;
   box-sizing: border-box;
@@ -33,14 +38,9 @@
 
   textarea{
     width: 100%;
-    height: 60px;
-    margin-bottom: 10px;
-  }
-
-  @include span-columns(12);
-
-  .author {
-    font-weight: bold;
+    min-height: 50px;
     font-size: 1em;
+    padding: 10px;
+    margin-bottom: 20px;
   }
 }

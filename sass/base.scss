@@ -16,40 +16,61 @@ header {
   background-size: cover;
   height: 300px;
   margin-bottom: 40px;
+  padding-top: 10px;
   .header-inner {
     @include outer-container;
   }
   nav {
     color: $light-gray;
     float: right;
+    text-align: right;
+    width: 40%;
+    margin-top: 5px;
   }
   .logo {
+    margin: auto;
     float: left;
+    text-align: center;
     color: white;
     font-size: 1.5em;
+    width: 60%;
+    img { width: 223px; float: right; }
   }
 }
 
-#main_container {
+#main_wrapper {
   @include outer-container;
-  max-width: 520px;
   margin: auto;
 }
 
-*{
+#main_container {
+  max-width: 700px;
+  margin: auto;
+}
+
+.btn {
+  background: $blue;
+  color: white;
+  padding: 5px 10px;
+  font-size: 1em;
+  border: none;
+  cursor: pointer;
+}
+
+* {
   box-sizing: border-box;
 }
 
-.tabs{
+.tabs {
   height: 32px;
   border-bottom: 1px solid #ccc;
   margin-bottom: 20px;
 
-  li:first-child{
+  li:first-child {
     border-bottom: 1px solid white;
   }
 
-  li{
+  li {
     border: 1px solid #ccc;
     margin-right: 10px;
     line-height: 30px;
@@ -58,7 +79,7 @@ header {
     cursor: pointer;
     background: white;
 
-    &:hover{
+    &:hover {
       border-color: black;
       text-decoration: underline;
     }

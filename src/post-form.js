@@ -38,7 +38,7 @@ module.exports = React.createClass({
       <form className='post-form' onSubmit={this.handleSubmit} onKeyPress={this.createOnEnter}>
         <h3>New Post</h3>
         <textarea placeholder='Say something...' ref='content' /><br />
-        <input type='submit' value='Post' />
+        <input type='submit' value='Post' className="btn" />
       </form>
     );
   }

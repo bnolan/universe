@@ -31,28 +31,28 @@ module.exports = React.createClass({
       <form onSubmit={this.handleSubmit} className='settings-form'>
         <h1>My Settings</h1>
 
-        <div>
+        <div className="form-row">
           <label>Name</label>
           <input ref='name' type='text' defaultValue={this.state.name} />
         </div>
 
-        <div>
+        <div className="form-row">
           <label>PKF</label>
           <textarea />
         </div>
 
-        <div>
+        <div className="form-row">
           <label>Public key</label>
           <textarea />
         </div>
 
-        <div>
+        <div className="form-row">
           <label>Private key</label>
           <textarea />
         </div>
 
-        <div>
-          <input type='submit' value='Save' />
+        <div className="form-row form-actions">
+          <input type='submit' value='Save' className='btn' />
         </div>
       </form>
     );
