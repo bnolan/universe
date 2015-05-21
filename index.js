@@ -84,7 +84,10 @@ function start () {
   window.sendMessage = function (message) {
     for (var peer in peers) {
       var connection = peers[peer];
-      connection.send(message);
+
+      if (connection._channel.readyState === 'open') {
+        connection.send(message);
+      }
     }
   };
 
