@@ -32,4 +32,6 @@ header {
 
 #main_container {
   @include outer-container;
+  max-width: 400px;
+  margin: auto;
 }

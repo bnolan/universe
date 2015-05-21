@@ -1,7 +1,7 @@
 var React = require('react');
 
 module.exports = React.createClass({
-  displayName: 'Post',
+  displayName: 'PostView',
 
   render: function () {
     return (
