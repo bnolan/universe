@@ -22,7 +22,13 @@ levelDbBackboneAdapter(Backbone, { db: db });
 
 var PostCollection = Backbone.Collection.extend({
   model: PostModel,
-  dbName: 'Posts'
+  dbName: 'Posts',
+
+  whereAuthor: function (author) {
+    return this.filter(function (post) {
+      return post.author.pkf === author.pkf;
+    });
+  }
 });
 
 var FriendCollection = Backbone.Collection.extend({
@@ -80,6 +86,11 @@ function start () {
     render();
   });
 
+  signalling.on('connect', function (peer) {
+    posts.whereAuthor(myself).each(function (post) {
+      peer.send(post.toJSON());
+    });
+  });
 
   window.sendMessage = function (message) {
     for (var peer in peers) {

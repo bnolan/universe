@@ -1,3 +1,5 @@
+var _ = require('underscore');
+var Backbone = require('backbone');
 var SignalHub = require('signalhub');
 var SimplePeer = require('simple-peer');
 var myself = require('./myself')();
@@ -93,5 +95,7 @@ var Signalling = {
     });
   }
 };
+
+_.extend(Signalling, Backbone.Events);
 
 module.exports = Signalling;
