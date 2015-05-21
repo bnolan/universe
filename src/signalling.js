@@ -27,7 +27,7 @@ var registerPeer = function (data) {
         delete peers[friend];
       }
     } else {
-      if (peers[friend].initiator == false) {
+      if (peers[friend].initiator === false) {
         console.log("Received intiator connection from", friend, ", cleaning up old non-initiator connection");
         delete peers[friend];
       }
@@ -42,7 +42,7 @@ var registerPeer = function (data) {
     console.log("Created new peer for", friend);
     peers[friend] = newPeer = new SimplePeer();
 
-    newPeer.on('error', function (err) { console.log(friend, 'error', err) });
+    newPeer.on('error', function (err) { console.log(friend, 'error', err); });
 
     newPeer.on('connect', function () {
       console.log('CONNECT');
@@ -85,7 +85,7 @@ var Signalling = {
         hub.broadcast('/' + friend, JSON.stringify({name: myself.name, data: data, initiator: true}));
       });
 
-      peer.on('error', function (err) { console.log(friend, 'error', err) });
+      peer.on('error', function (err) { console.log(friend, 'error', err); });
 
       peer.on('connect', function () {
         console.log('CONNECT');
