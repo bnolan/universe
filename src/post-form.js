@@ -1,4 +1,6 @@
 var React = require('react');
+var postMessage = require('./post-message');
+var User = require('./user')
 
 module.exports = React.createClass({
   displayName: 'PostForm',
@@ -9,9 +11,17 @@ module.exports = React.createClass({
     if (!content) {
       return;
     }
-    // TODO: send request
+
     React.findDOMNode(this.refs.content).value = '';
-    console.log(content);
+    var myself = new User({
+      name: 'Ben Nolan',
+      pkf: '12:12:12:...'
+    });
+    var post = {
+      author: myself.toJson(),
+      content: content
+    };
+    postMessage(post);
   },
 
   render: function () {
