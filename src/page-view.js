@@ -1,6 +1,7 @@
 var React = require('react');
 var Myself = require('./myself');
 var Feed = require('./feed');
+var FriendsView = require('./friends-view');
 var Settings = require('./settings');
 
 module.exports = React.createClass({
@@ -14,6 +15,11 @@ module.exports = React.createClass({
 
   showFeed: function () {
     this.setState({tab: 'feed'});
+    this.render();
+  },
+
+  showFriends: function () {
+    this.setState({tab: 'friends'});
     this.render();
   },
 
@@ -34,12 +40,17 @@ module.exports = React.createClass({
       content = <Feed name={myself.name} posts={posts} />;
     } else if (this.state.tab === 'settings') {
       content = <Settings data={myself} />;
+    } else if (this.state.tab === 'friends') {
+      var friends = window.friends;
+
+      content = <FriendsView friends={friends} />;
     }
 
     return (
       <div>
         <ul className='tabs'>
           <li onClick={this.showFeed}>Feed</li>
+          <li onClick={this.showFriends}>Friends</li>
           <li onClick={this.showSettings}>Settings</li>
         </ul>
 

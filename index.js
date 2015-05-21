@@ -1,6 +1,7 @@
 var React = require('react');
 var level = require('level-browserify');
 var Backbone = require('backbone');
+var levelDbBackboneAdapter = require('./vendor/adapter');
 
 var Settings = require('./src/settings');
 var Myself = require('./src/myself');
@@ -12,15 +13,43 @@ var PostModel = require('./src/post-model');
 
 var signalling = require('./src/signalling');
 
-var db = level('./mydb2');
+var db = level('./mydb2', { valueEncoding: 'json' });
 var myself = Myself();
+
+levelDbBackboneAdapter(Backbone, { db: db });
 
 var PostCollection = Backbone.Collection.extend({
   model: PostModel
 });
 
+var FriendCollection = Backbone.Collection.extend({
+  model: User,
+
+  dbName: 'Friends',
+
+  getPkfs: function () {
+    return this.map(function (friend) {
+      return friend.get('pkf');
+    });
+  },
+
+  prepopulate: function () {
+    var self = this;
+
+    console.log('prepopulate');
+
+    ['nick', 'kelly', 'ben','matt'].filter(function (name) {
+      return name !== myself.name;
+    }).forEach(function (name) {
+      var user = User.fromName(name);
+      self.create(user);
+    });
+  }
+});
+
 // dont judge me
 window.posts = new PostCollection();
+window.friends = new FriendCollection();
 window.peers = {};
 
 function start () {
@@ -29,24 +58,18 @@ function start () {
     return;
   }
 
-  var friends = [
-    'nick',
-    'kelly',
-    'ben',
-    'matt'
-  ].filter(function (name) {
-    return name !== myself.name;
-  }).map(function (name) {
-    return User.fromName(name);
-  });
-
   var peers = window.peers;
   var posts = window.posts;
+  var friends = window.friends;
+
+  friends.fetch().then(function () {
+    if (friends.isEmpty()) {
+      friends.prepopulate();
+    }
+  });
 
   signalling.subscribe();
-  signalling.registerWithFriends(friends.map(function (friend) {
-    return friend.pkf;
-  }));
+  signalling.registerWithFriends(friends.getPkfs());
 
   window.sendMessage = function (message) {
     for (var peer in peers) {

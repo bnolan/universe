@@ -1,14 +1,8 @@
-var _ = require('underscore');
-var fingerprint = require('./fingerprint');
+// var fingerprint = require('./fingerprint');
+var Backbone = require('backbone');
 
-function User (args) {
-  _.assign(this, args);
-  this.posts = [];
-};
-
-User.prototype.toJson = function () {
-  return { name: this.name, pkf: this.pkf };
-};
+var User = Backbone.Model.extend({
+});
 
 User.fromName = function (name) {
   return new User({

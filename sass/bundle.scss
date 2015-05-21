@@ -65,3 +65,13 @@ header {
   }
 }
 
+table{
+  width: 100%;
+  border-top: 1px solid #ccc;
+  border-collapse: collapse;
+
+  th,td{
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+  }
+}
