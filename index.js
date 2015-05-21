@@ -2,6 +2,8 @@ var SimplePeer = require('simple-peer');
 var React = require('react');
 var level = require('level-browserify');
 
+var Backbone = require('backbone');
+
 var Feed = require('./src/feed');
 var Settings = require('./src/settings');
 var User = require('./src/user');
@@ -12,47 +14,48 @@ var db = level('./mydb2');
 
 var myself = Myself();
 
-var Nav = require('./src/thing');
-
 var feed = {
   name: 'Mr Peabody',
   posts: []
 };
 
+var PostModel = Backbone.Model.extend({
+});
+
+var PostCollection = Backbone.Collection.extend({
+  model: PostModel
+});
+
+window.posts = new PostCollection();
+
 if (myself) {
-  var post = {
-    author: Myself().toJson(),
-    content: 'Hello world this is great'
-  };
+  var posts = window.posts;
 
-  postMessage(post);
-
-  function render() {
+  function render () {
     React.render(
       <div>
         <Settings data={myself} />
-        <Feed name={myself.name} posts={feed.posts} />
+        <Feed name={myself.name} posts={posts} />
       </div>,
       document.getElementById('main_container')
     );
   }
+
+  posts.on('add', function () {
+    render();
+  });
 
   db.createReadStream()
     .on('data', function (data) {
       var post;
 
       try {
-        post = JSON.parse(data.value);
+        post = new PostModel(JSON.parse(data.value));
       }catch (e) {
         return;
       }
 
-      if ((post.author) && (post.author.pkf === myself.pkf)) {
-        myself.posts.push(post);
-        feed.posts.push(post);
-
-        render();
-      }
+      posts.add(post);
     });
 
   render();

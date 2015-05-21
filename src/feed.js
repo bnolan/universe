@@ -7,7 +7,7 @@ module.exports = React.createClass({
 
   propTypes: {
     name: React.PropTypes.string,
-    posts: React.PropTypes.array
+    posts: React.PropTypes.object
   },
 
   render: function () {
@@ -18,7 +18,7 @@ module.exports = React.createClass({
         <h1>{this.props.name}</h1>
 
         {posts.map(function (result) {
-          return <Post key={result.id} data={result} />;
+          return <Post key={result.id} data={result.attributes} />;
         })}
         <PostForm />
       </div>
