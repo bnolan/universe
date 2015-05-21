@@ -40,7 +40,7 @@ var registerPeer = function (data) {
 
   if (!newPeer) {
     console.log("Created new peer for", friend);
-    peers[friend] = newPeer = new SimplePeer();
+    peers[friend] = newPeer = new SimplePeer({ trickle: false });
 
     newPeer.on('error', function (err) { console.log(friend, 'error', err); });
 
@@ -78,7 +78,7 @@ var Signalling = {
   registerWithFriends: function (friends) {
     console.log('Creating peers and publishing to signalhub for', friends.join(', '));
     friends.forEach(function (friend) {
-      var peer = new SimplePeer( { initiator: true });
+      var peer = new SimplePeer( { initiator: true, trickle: false });
 
       peer.on('signal', function (data) {
         console.log('sending a initiator signal to', friend);
