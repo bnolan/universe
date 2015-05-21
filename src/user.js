@@ -12,7 +12,7 @@ User.prototype.toJson = function () {
 
 User.fromName = function (name) {
   return new User({
-    pkf: fingerprint(name),
+    pkf: name, // fingerprint(name),
     name: name
   });
 };
