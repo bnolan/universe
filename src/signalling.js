@@ -4,9 +4,9 @@ var myself = require('./myself')();
 var postMessage = require('./post-message');
 
 var hub = SignalHub(
-    '192.155.85.161:9010',
-    'universe'
-    );
+  '192.155.85.161:9010',
+  'universe'
+);
 
 var registerPeer = function (data) {
   var friend = data.name;
@@ -21,20 +21,28 @@ var registerPeer = function (data) {
 
   if (peers[friend]) {
     console.log("Found existing peer ", friend);
-    if (initiator && peers[friend].initiator) {
-      console.log("Received intiator connection from", friend, ", cleaning up old initiator connection");
-      delete peers[friend];
+    if (initiator) {
+      if (peers[friend].initiator) {
+        console.log("Received intiator connection from", friend, ", cleaning up old initiator connection");
+        delete peers[friend];
+      }
     } else {
-      console.log("Received non initiator connection from", friend, ", using existing peer");
+      if (peers[friend].initiator === false) {
+        console.log("Received intiator connection from", friend, ", cleaning up old non-initiator connection");
+        delete peers[friend];
+      }
+    }
+
+    if (peers[friend]) {
       newPeer = peers[friend];
-    };
+    }
   }
 
   if (!newPeer) {
-    console.log("Created new peer for ", friend);
-    peers[friend] = newPeer = new SimplePeer();
+    console.log("Created new peer for", friend);
+    peers[friend] = newPeer = new SimplePeer({ trickle: false });
 
-    newPeer.on('error', function (err) { console.log(friend, 'error', err) });
+    newPeer.on('error', function (err) { console.log(friend, 'error', err); });
 
     newPeer.on('connect', function () {
       console.log('CONNECT');
@@ -70,14 +78,14 @@ var Signalling = {
   registerWithFriends: function (friends) {
     console.log('Creating peers and publishing to signalhub for', friends.join(', '));
     friends.forEach(function (friend) {
-      var peer = new SimplePeer( { initiator: true });
+      var peer = new SimplePeer( { initiator: true, trickle: false });
 
       peer.on('signal', function (data) {
         console.log('sending a initiator signal to', friend);
         hub.broadcast('/' + friend, JSON.stringify({name: myself.name, data: data, initiator: true}));
       });
 
-      peer.on('error', function (err) { console.log(friend, 'error', err) });
+      peer.on('error', function (err) { console.log(friend, 'error', err); });
 
       peer.on('connect', function () {
         console.log('CONNECT');
