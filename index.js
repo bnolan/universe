@@ -12,6 +12,8 @@ var db = level('./mydb2');
 
 var myself = Myself();
 
+var Nav = require('./src/thing');
+
 var feed = {
   name: 'Mr Peabody',
   posts: []
