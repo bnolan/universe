@@ -8,13 +8,39 @@ var hub = SignalHub(
   'universe'
 );
 
+// TODO - use actual pkf instead of name
+var myPkf = myself.get('name');
+
+var constructPeer = function (friend, initiator) {
+  console.log('Constructing peer for', friend);
+  var newPeer = new SimplePeer({ trickle: false, initiator: initiator });
+
+  newPeer.on('error', function (err) { console.log(friend, 'error', err); });
+
+  newPeer.on('connect', function () {
+    console.log('Connected to', friend);
+  });
+
+  newPeer.on('data', function (data) {
+    console.log('Got a message from', friend, ':', data);
+    postMessage(data);
+  });
+
+  newPeer.on('signal', function (data) {
+    console.log('Sending a', initiator ? 'initiator' : 'non-initiator', 'response to', friend);
+    hub.broadcast('/' + friend, JSON.stringify({name: myPkf, data: data, initiator: initiator}));
+  });
+
+  return newPeer;
+}
+
 var registerPeer = function (data) {
   var friend = data.name;
   var signallingData = data.data;
   var initiator = data.initiator;
   var newPeer;
 
-  if (friend == myself.name) {
+  if (friend == myPkf) {
     console.log('got a message from myself');
     return;
   }
@@ -40,23 +66,7 @@ var registerPeer = function (data) {
 
   if (!newPeer) {
     console.log("Created new peer for", friend);
-    peers[friend] = newPeer = new SimplePeer({ trickle: false });
-
-    newPeer.on('error', function (err) { console.log(friend, 'error', err); });
-
-    newPeer.on('connect', function () {
-      console.log('CONNECT');
-    });
-
-    newPeer.on('data', function (data) {
-      console.log('data: ' + data);
-      postMessage(data);
-    });
-
-    newPeer.on('signal', function (data) {
-      console.log('sending a', !initiator ? 'initiator' : 'non-initiator', 'response to', friend);
-      hub.broadcast('/' + friend, JSON.stringify({name: myself.name, data: data, initiator: !initiator}));
-    });
+    peers[friend] = newPeer = constructPeer(friend, !initiator)
   }
 
   newPeer.signal(signallingData);
@@ -67,7 +77,8 @@ var registerPeer = function (data) {
 var Signalling = {
   subscribe: function () {
     console.log('Subscribing to my own signalhub');
-    hub.subscribe('/' + myself.name)
+    console.log(myPkf);
+    hub.subscribe('/' + myPkf)
       .on('data', function (data) {
         var initiator = JSON.parse(data).initiator;
         console.log(initiator ? 'Signal' : 'Response', 'in my channel from ' + JSON.parse(data).name);
@@ -78,25 +89,7 @@ var Signalling = {
   registerWithFriends: function (friends) {
     console.log('Creating peers and publishing to signalhub for', friends.join(', '));
     friends.forEach(function (friend) {
-      var peer = new SimplePeer( { initiator: true, trickle: false });
-
-      peer.on('signal', function (data) {
-        console.log('sending a initiator signal to', friend);
-        hub.broadcast('/' + friend, JSON.stringify({name: myself.name, data: data, initiator: true}));
-      });
-
-      peer.on('error', function (err) { console.log(friend, 'error', err); });
-
-      peer.on('connect', function () {
-        console.log('CONNECT');
-      });
-
-      peer.on('data', function (data) {
-        console.log('data: ' + data);
-        postMessage(data);
-      });
-
-      peers[friend] = peer;
+      peers[friend] = constructPeer(friend, true);
     });
   }
 };

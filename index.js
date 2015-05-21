@@ -71,14 +71,15 @@ function start () {
     if (friends.isEmpty()) {
       friends.prepopulate();
     }
+
+    signalling.subscribe();
+    signalling.registerWithFriends(friends.getPkfs());
   });
 
   posts.fetch().then(function () {
     render();
   });
 
-  signalling.subscribe();
-  signalling.registerWithFriends(friends.getPkfs());
 
   window.sendMessage = function (message) {
     for (var peer in peers) {
