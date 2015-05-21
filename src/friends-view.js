@@ -1,7 +1,9 @@
+/*  globals alert */
+
 var React = require('react');
 var PostView = require('./post-view');
 var PostForm = require('./post-form');
-var User = require('./user')
+var User = require('./user');
 
 module.exports = React.createClass({
   displayName: 'FriendsView',
@@ -19,10 +21,16 @@ module.exports = React.createClass({
   handleSubmit: function (e) {
     e.preventDefault();
 
-    // var user = new User({
-    //   name: React.findDOMNode(this.refs.name).value.trim(),
-    //   pkf: React.findDOMNode(this.refs.pkf).value.trim()
-    // });
+    var user = new User({
+      name: React.findDOMNode(this.refs.name).value.trim(),
+      pkf: React.findDOMNode(this.refs.pkf).value.trim()
+    });
+
+    if (user.isValid()) {
+      this.props.friends.create(user);
+    } else {
+      alert('Could not add: ' + user.validationError);
+    }
   },
 
   componentDidMount: function () {
@@ -31,6 +39,10 @@ module.exports = React.createClass({
     this.props.friends.on('all', function () {
       self.forceUpdate();
     });
+  },
+
+  componentWillUnmount: function () {
+    // todo - unmount the .on('all')
   },
 
   render: function () {
