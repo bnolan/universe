@@ -6,7 +6,6 @@ var PostModel = require('./post-model');
 module.exports = function (message) {
   var createdAt = (new Date()).getTime();
   message.createdAt = createdAt;
-  message.id = uuid.v1();
 
   if (!message.author) {
     throw new Error('Invalid post, no author.');

@@ -19,12 +19,12 @@ var myself = Myself();
 levelDbBackboneAdapter(Backbone, { db: db });
 
 var PostCollection = Backbone.Collection.extend({
-  model: PostModel
+  model: PostModel,
+  dbName: 'Posts'
 });
 
 var FriendCollection = Backbone.Collection.extend({
   model: User,
-
   dbName: 'Friends',
 
   getPkfs: function () {
@@ -38,7 +38,7 @@ var FriendCollection = Backbone.Collection.extend({
 
     console.log('prepopulate');
 
-    ['nick', 'kelly', 'ben','matt'].filter(function (name) {
+    ['nick', 'kelly', 'ben', 'matt'].filter(function (name) {
       return name !== myself.name;
     }).forEach(function (name) {
       var user = User.fromName(name);
@@ -68,6 +68,10 @@ function start () {
     }
   });
 
+  posts.fetch().then(function () {
+    render();
+  });
+
   signalling.subscribe();
   signalling.registerWithFriends(friends.getPkfs());
 
@@ -85,19 +89,6 @@ function start () {
   posts.on('add', function (post) {
     render();
   });
-
-  db.createReadStream()
-    .on('data', function (data) {
-      var post;
-
-      try {
-        post = new PostModel(JSON.parse(data.value));
-      }catch (e) {
-        return;
-      }
-
-      posts.add(post);
-    });
 
   render();
 }
