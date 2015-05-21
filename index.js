@@ -1,3 +1,5 @@
+/* globals $ */
+
 var React = require('react');
 var level = require('level-browserify');
 var Backbone = require('backbone');
@@ -51,6 +53,9 @@ var FriendCollection = Backbone.Collection.extend({
 window.posts = new PostCollection();
 window.friends = new FriendCollection();
 window.peers = {};
+
+$('.sk-spinner').remove();
+$('header').show();
 
 function start () {
   if (!myself) {
