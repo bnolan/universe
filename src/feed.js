@@ -1,6 +1,6 @@
 var React = require('react');
 var Post = require('./post');
-var PostForm = require('./post_form');
+var PostForm = require('./post-form');
 
 module.exports = React.createClass({
   displayName: 'Feed',
