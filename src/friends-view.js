@@ -12,6 +12,8 @@ module.exports = React.createClass({
 
   onTerminate: function (id) {
     console.log(id);
+
+    this.props.friends.get(id).destroy();
   },
 
   handleSubmit: function (e) {
@@ -23,9 +25,17 @@ module.exports = React.createClass({
     // });
   },
 
+  componentDidMount: function () {
+    var self = this;
+
+    this.props.friends.on('all', function () {
+      self.forceUpdate();
+    });
+  },
+
   render: function () {
     var self = this;
-    
+
     return (
       <div>
         <h1>Newsfeed</h1>
@@ -43,20 +53,22 @@ module.exports = React.createClass({
         </form>
 
         <table>
-          <tr>
-            <th>Name</th>
-            <th>PKF</th>
-            <th></th>
-          </tr>
-        {this.props.friends.map(function (friend) {
-          return (
-            <tr key={friend.id}>
-              <td>{ friend.get('name') }</td>
-              <td>{ friend.get('pkf') }</td>
-              <td><button onClick={self.onTerminate.bind(self, friend.id)}>Terminate friendship</button></td>
+          <tbody>
+            <tr>
+              <th>Name</th>
+              <th>PKF</th>
+              <th></th>
             </tr>
-          );
-        })}
+          {this.props.friends.map(function (friend) {
+            return (
+              <tr key={friend.id}>
+                <td>{ friend.get('name') }</td>
+                <td>{ friend.get('pkf') }</td>
+                <td><button onClick={self.onTerminate.bind(self, friend.id)}>Terminate friendship</button></td>
+              </tr>
+            );
+          })}
+          </tbody>
         </table>
       </div>
     );
