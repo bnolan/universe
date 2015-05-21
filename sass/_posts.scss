@@ -1,0 +1,12 @@
+// Posts
+.post {
+  border: $base-border;
+  background: lighten($light-gray, 2%);
+  margin-bottom: 20px;
+  padding: 10px;
+  @include span-columns(12);
+  .author {
+    font-weight: bold;
+    font-size: 1em;
+  }
+}

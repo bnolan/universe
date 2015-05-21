@@ -4,6 +4,7 @@
 @import "neat";
 @import "forms";
 @import "typography";
+@import "posts";
 
 body {
   background: $light-gray;
@@ -11,13 +12,24 @@ body {
 }
 
 header {
-  background: $dark-gray;
+  background: url("/images/space-bg.jpg") $dark-gray;
+  background-size: cover;
+  height: 300px;
+  margin-bottom: 40px;
+  .header-inner {
+    @include outer-container;
+  }
   nav {
-    
+    color: $light-gray;
+    float: right;
+  }
+  .logo {
+    float: left;
+    color: white;
+    font-size: 1.5em;
   }
 }
 
 #main_container {
   @include outer-container;
 }
-
