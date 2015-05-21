@@ -1,13 +1,10 @@
-var SimplePeer = require('simple-peer');
 var React = require('react');
 var level = require('level-browserify');
 var Backbone = require('backbone');
 
-var Feed = require('./src/feed');
 var Settings = require('./src/settings');
-var User = require('./src/user');
 var Myself = require('./src/myself');
-var postMessage = require('./src/post-message');
+var User = require('./src/user');
 
 var PageView = require('./src/page-view');
 var Myself = require('./src/myself');
@@ -23,21 +20,33 @@ var PostCollection = Backbone.Collection.extend({
 });
 
 // dont judge me
-window.$ = window.jQuery = jQuery;
 window.posts = new PostCollection();
+window.peers = {};
 
-if (myself) {
+function start () {
+  if (!myself) {
+    React.render(<Settings />, document.getElementById('main_container'));
+    return;
+  }
+
   var friends = [
     'nick',
     'kelly',
     'ben',
-    'matt',
-  ].filter(function(friend) { return friend != myself.name; });
+    'matt'
+  ].filter(function (name) {
+    return name !== myself.name;
+  }).map(function (name) {
+    return User.fromName(name);
+  });
 
-  window.peers = {};
+  var peers = window.peers;
+  var posts = window.posts;
 
   signalling.subscribe();
-  signalling.registerWithFriends(friends);
+  signalling.registerWithFriends(friends.map(function (friend) {
+    return friend.pkf;
+  }));
 
   window.sendMessage = function (message) {
     for (var peer in peers) {
@@ -45,8 +54,6 @@ if (myself) {
       connection.send(message);
     }
   };
-
-  var posts = window.posts;
 
   function render () {
     React.render(<PageView />, document.getElementById('main_container'));
@@ -70,6 +77,6 @@ if (myself) {
     });
 
   render();
-} else {
-  React.render(<Settings />, document.getElementById('main_container'));
 }
+
+start();

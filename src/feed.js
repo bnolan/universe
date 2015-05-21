@@ -12,7 +12,7 @@ module.exports = React.createClass({
   render: function () {
     return (
       <div>
-        <h1>Feed</h1>
+        <h1>Newsfeed</h1>
 
         <PostForm />
 

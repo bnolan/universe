@@ -36,7 +36,19 @@ header {
   margin: auto;
 }
 
+*{
+  box-sizing: border-box;
+}
+
 .tabs{
+  height: 32px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
+
+  li:first-child{
+    border-bottom: 1px solid white;
+  }
+
   li{
     border: 1px solid #ccc;
     margin-right: 10px;
@@ -44,11 +56,11 @@ header {
     padding: 0 15px;
     display: inline-block;
     cursor: pointer;
+    background: white;
 
     &:hover{
       border-color: black;
       text-decoration: underline;
-      background: white;
     }
   }
 }
