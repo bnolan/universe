@@ -25,7 +25,7 @@ div.post{
   margin-bottom: 20px;
   background: white;
   border-radius: 2px;
-  
+
   .content{
     padding: 4px;
   }
@@ -38,5 +38,18 @@ div.post{
     padding: 4px;
     @include linear-gradient(to top, #fff, #eee);
     font: inherit;
+  }
+}
+
+.settings-form{
+  & > div{
+    label{
+      width: 100px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    text,input[type='text']{
+      width: 300px;
+    }
   }
 }

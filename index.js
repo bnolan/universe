@@ -3,52 +3,62 @@ var React = require('react');
 var level = require('level-browserify');
 
 var Feed = require('./src/feed');
+var Settings = require('./src/settings');
 var User = require('./src/user');
+var Myself = require('./src/myself');
 var postMessage = require('./src/post-message');
 
 var db = level('./mydb2');
 
-var myself = new User({
-  name: 'Ben Nolan',
-  pkf: '12:12:12:...'
-});
-
-var post = {
-  author: myself.toJson(),
-  content: 'Hello world this is great'
-};
-postMessage(post);
+var myself = Myself();
 
 var feed = {
   name: 'Mr Peabody',
   posts: []
 };
 
-db.createReadStream()
-  .on('data', function (data) {
-    var post;
+if (myself) {
+  var post = {
+    author: Myself().toJson(),
+    content: 'Hello world this is great'
+  };
 
-    try {
-      post = JSON.parse(data.value);
-    }catch (e) {
-      return;
-    }
+  postMessage(post);
 
-    if ((post.author) && (post.author.pkf === myself.pkf)) {
-      myself.posts.push(post);
-      feed.posts.push(post);
+  function render() {
+    React.render(
+      <div>
+        <Settings data={myself} />
+        <Feed name={myself.name} posts={feed.posts} />
+      </div>,
+      document.getElementById('main')
+    );
+  }
 
-      console.log('eh?');
+  db.createReadStream()
+    .on('data', function (data) {
+      var post;
 
-      render();
-    }
-  });
+      try {
+        post = JSON.parse(data.value);
+      }catch (e) {
+        return;
+      }
 
-function render() {
+      if ((post.author) && (post.author.pkf === myself.pkf)) {
+        myself.posts.push(post);
+        feed.posts.push(post);
+
+        render();
+      }
+    });
+
+  render();
+} else {
   React.render(
-    <Feed name={myself.name} posts={feed.posts} />,
+    <div>
+      <Settings />
+    </div>,
     document.getElementById('main')
   );
 }
-
-render();
