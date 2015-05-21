@@ -1,19 +1,12 @@
 var SimplePeer = require('simple-peer');
 var React = require('react');
-var uuid = require('uuid');
 var level = require('level-browserify');
 
 var Feed = require('./src/feed');
 var User = require('./src/user');
+var postMessage = require('./src/post-message');
 
 var db = level('./mydb2');
-
-var postMessage = function (message) {
-  var createdAt = (new Date).getTime();
-  message.createdAt = createdAt;
-  message.id = uuid.v1();
-  db.put(message.id, JSON.stringify(message));
-};
 
 var myself = new User({
   name: 'Ben Nolan',
