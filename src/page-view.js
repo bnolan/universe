@@ -13,12 +13,12 @@ module.exports = React.createClass({
   },
 
   showFeed: function () {
-    this.state.tab = 'feed';
+    this.setState({tab: 'feed'});
     this.render();
   },
 
   showSettings: function () {
-    this.state.tab = 'settings';
+    this.setState({tab: 'settings'});
     this.render();
   },
 
@@ -37,7 +37,7 @@ module.exports = React.createClass({
 
     return (
       <div>
-        <ul className="tabs">
+        <ul className='tabs'>
           <li onClick={this.showFeed}>Feed</li>
           <li onClick={this.showSettings}>Settings</li>
         </ul>

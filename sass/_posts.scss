@@ -4,10 +4,18 @@
   background: lighten($light-gray, 2%);
   margin-bottom: 20px;
   padding: 10px;
+
   @include span-columns(12);
+
   .author {
     font-weight: bold;
     font-size: 1em;
+  }
+
+  small{
+    padding-top: 10px;
+    font-size: 0.9em;
+    opacity: 0.8;
   }
 }
 
@@ -17,7 +25,9 @@
   background: lighten($light-gray, 2%);
   margin-bottom: 20px;
   padding: 10px;
+
   @include span-columns(12);
+
   .author {
     font-weight: bold;
     font-size: 1em;

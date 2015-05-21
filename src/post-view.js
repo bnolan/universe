@@ -1,4 +1,5 @@
 var React = require('react');
+var timeago = require('timeago');
 
 module.exports = React.createClass({
   displayName: 'PostView',
@@ -12,7 +13,7 @@ module.exports = React.createClass({
         <div className='content'>
           { this.props.data.content }
         </div>
-        <small>{ this.props.data.createdAt }</small>
+        <small>{ timeago(this.props.data.createdAt) }</small>
       </div>
     );
   }

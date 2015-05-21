@@ -24,6 +24,7 @@
     "reactify": "^1.1.1",
     "signalhub": "git://github.com/scenevr/signalhub",
     "simple-peer": "^5.8.0",
+    "timeago": "^0.2.0",
     "underscore": "^1.8.3",
     "uuid": "^2.0.1"
   },

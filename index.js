@@ -44,13 +44,6 @@ if (myself) {
     }
   };
 
-  var post = {
-    author: Myself().toJson(),
-    content: 'Hello world this is great'
-  };
-
-  postMessage(post);
-
   var posts = window.posts;
 
   function render () {
