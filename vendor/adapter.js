@@ -27,7 +27,7 @@ var Adapter = function (Backbone, config) {
 			entity.trigger('error', entity, resp, options);
 		};
 
-		if(entity.isCollection){
+		if(entity instanceof Backbone.Collection){
 			var collection = entity;
 
 			if(method === 'read'){
@@ -54,17 +54,19 @@ var Adapter = function (Backbone, config) {
 			}
 		}
 
-		else if(entity.isModel){
+		else if(entity instanceof Backbone.Model){
+			console.log('model ' + method);
+
 			var model = entity;
+			model._db = model.collection._db;
+
 			var modelAsJSON = model.toJSON();
 			delete modelAsJSON.id;
 			var dbPut = Promise.promisify(model._db.put, model._db),
 				dbDel = Promise.promisify(model._db.del, model._db);
 
-			console.log('eh?');
-			
 			if(method === 'create'){
-				var id = model.uniqueKey();
+				var id = uuid.v1();
 				dbPut(id, modelAsJSON).then(function() {
 					model.set('id', id);
 					options.success(model);
@@ -79,6 +81,9 @@ var Adapter = function (Backbone, config) {
 				dbDel(model.get('id'))
 				.then(options.success.bind(null, model), options.error);
 			}
+		} else {
+			console.log('wtf?');
+			console.log(entity);
 		}
 		return deferred.promise;
 	};
