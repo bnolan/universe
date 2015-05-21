@@ -18,9 +18,7 @@ module.exports = React.createClass({
         <h1>The universe page for {this.props.name}</h1>
 
         {posts.map(function (result) {
-          return (
-            <Post author={result.author} content={result.content} createdAt={result.createdAt} />
-          );
+          return <Post key={result.id} data={result} />;
         })}
         <PostForm />
       </div>
