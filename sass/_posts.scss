@@ -4,9 +4,21 @@
   background: lighten($light-gray, 2%);
   margin-bottom: 20px;
   padding: 10px;
-  @include span-columns(12);
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+  border-radius: 3px;
   .author {
     font-weight: bold;
+    color: $blue;
+  }
+}
+
+.postForm {
+  margin-bottom: 20px;
+  textarea {
+    width: 100%;
+    min-height: 50px;
     font-size: 1em;
+    padding: 10px;
+    margin-bottom: 20px;
   }
 }

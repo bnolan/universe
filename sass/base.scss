@@ -30,8 +30,20 @@ header {
   }
 }
 
-#main_container {
+#main_wrapper {
   @include outer-container;
-  max-width: 400px;
   margin: auto;
+}
+
+#main_container {
+  max-width: 700px;
+  margin: auto;
+}
+
+.btn {
+  background: $blue;
+  color: white;
+  padding: 2px 6px;
+  font-size: 1.1em;
+  border: none;
 }

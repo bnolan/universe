@@ -29,7 +29,7 @@ module.exports = React.createClass({
       <form className='postForm' onSubmit={this.handleSubmit}>
         <h3>New Post</h3>
         <textarea placeholder='Say something...' ref='content' /><br />
-        <input type='submit' value='Post' />
+        <input type='submit' value='Post' className="btn" />
       </form>
     );
   }
