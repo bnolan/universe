@@ -35,3 +35,15 @@ header {
   max-width: 400px;
   margin: auto;
 }
+
+.tabs{
+  li{
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    margin: auto;
+    line-height: 30px;
+    padding: 0 15px;
+    display: inline-block;
+  }
+}
+
