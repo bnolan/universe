@@ -2,8 +2,9 @@ var uuid = require('uuid');
 var level = require('level-browserify');
 var db = level('./mydb2');
 var PostModel = require('./post-model');
+var CommentModel = require('./comment-model');
 
-module.exports = function (message) {
+module.exports = function (type, message) {
   var createdAt = (new Date()).getTime();
   message.createdAt = createdAt;
 
@@ -11,6 +12,10 @@ module.exports = function (message) {
     throw new Error('Invalid post, no author.');
   }
 
-  window.posts.create(new PostModel(message));
+  if (type === 'Post') {
+    window.posts.create(new PostModel(message));
+  } else {
+    window.comments.create(new CommentModel(message));
+  }
   // db.put(message.id, JSON.stringify(message));
 };

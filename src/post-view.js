@@ -3,6 +3,7 @@
 var React = require('react');
 var timeago = require('timeago');
 var Myself = require('./myself');
+var postMessage = require('./post-message');
 
 var Comment = React.createClass({
   render: function() {
@@ -87,6 +88,7 @@ var CommentForm = React.createClass({
 var CommentBox = React.createClass({
   handleSubmit: function (comment) {
     this.refs.commentList.addComment(comment);
+    postMessage('Comment', comment);
   },
 
   render: function() {

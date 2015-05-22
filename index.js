@@ -12,6 +12,7 @@ var User = require('./src/user');
 var PageView = require('./src/page-view');
 var Myself = require('./src/myself');
 var PostModel = require('./src/post-model');
+var CommentModel = require('./src/comment-model');
 
 var signalling = require('./src/signalling');
 
@@ -27,6 +28,17 @@ var PostCollection = Backbone.Collection.extend({
   whereAuthor: function (author) {
     return this.filter(function (post) {
       return post.get('author').pkf === author.get('pkf');
+    });
+  }
+});
+
+var CommentCollection = Backbone.Collection.extend({
+  model: CommentModel,
+  dbName: 'Comments',
+
+  wherePost: function (post) {
+    return this.filter(function (comment) {
+      return comment.post_id === post.id;
     });
   }
 });
@@ -100,6 +112,7 @@ $(function () {
 
 // dont judge me
 window.posts = new PostCollection();
+window.comments = new CommentCollection();
 window.friends = new FriendCollection();
 window.peers = {};
 
@@ -117,6 +130,7 @@ function start () {
 
   var peers = window.peers;
   var posts = window.posts;
+  var comments = window.comments;
   var friends = window.friends;
 
   friends.fetch().then(function () {
@@ -129,6 +143,10 @@ function start () {
   });
 
   posts.fetch().then(function () {
+    render();
+  });
+
+  comments.fetch().then(function () {
     render();
   });
 
@@ -169,6 +187,10 @@ function start () {
   }
 
   posts.on('add', function (post) {
+    render();
+  });
+
+  comments.on('add', function (comment) {
     render();
   });
 
