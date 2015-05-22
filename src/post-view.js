@@ -87,6 +87,7 @@ var CommentForm = React.createClass({
 var CommentBox = React.createClass({
   handleSubmit: function (comment) {
     this.refs.commentList.addComment(comment);
+    sendMessage('Comment', comment);
     postMessage('Comment', comment);
   },
 

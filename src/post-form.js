@@ -33,7 +33,7 @@ module.exports = React.createClass({
     };
 
     postMessage('Post', post);
-    sendMessage(post);
+    sendMessage('Post', post);
   },
 
   render: function () {
