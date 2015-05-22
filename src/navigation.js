@@ -36,5 +36,3 @@ function hasScrolled() {
     
     lastScrollTop = st;
 }
-
-module.exports = navigation;

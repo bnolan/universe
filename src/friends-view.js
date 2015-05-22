@@ -53,15 +53,19 @@ module.exports = React.createClass({
         <h1>Friends</h1>
 
         <form onSubmit={this.handleSubmit}>
-          <label>Name</label>
-          <input ref='name' type='text' />
-          <br />
-
-          <label>PKF</label>
-          <input ref='pkf' type='text' />
-          <br />
-
-          <input type='submit' value='Add friend' />
+          <div className='form-row'>
+            <label>Name</label>
+            <input ref='name' type='text' />
+          </div>
+          
+          <div className='form-row'>
+            <label>PKF</label>
+            <input ref='pkf' type='text' />
+          </div>
+          
+          <div className='form-row form-actions'>
+            <input type='submit' value='Add friend' className='btn-green' />
+          </div>
         </form>
 
         <table>
@@ -76,7 +80,7 @@ module.exports = React.createClass({
               <tr key={friend.id}>
                 <td>{ friend.get('name') }</td>
                 <td>{ friend.get('pkf') }</td>
-                <td><button onClick={self.onTerminate.bind(self, friend.id)}>Terminate friendship</button></td>
+                <td><button className='btn-orange' onClick={self.onTerminate.bind(self, friend.id)}>Terminate friendship</button></td>
               </tr>
             );
           })}

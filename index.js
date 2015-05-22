@@ -49,13 +49,18 @@ var FriendCollection = Backbone.Collection.extend({
   }
 });
 
+$('body').addClass('loading');
+
 // dont judge me
 window.posts = new PostCollection();
 window.friends = new FriendCollection();
 window.peers = {};
 
+// dont judge me either
 $('.sk-spinner').remove();
+$('body').removeClass('loading');
 $('header').show();
+$('header').addClass('animate-header');
 
 function start () {
   if (!myself) {

@@ -1,8 +1,9 @@
-<body>
+<body class="loading">
   <style>
-    html,body{height: 100%; margin: 0; padding: 0;}
-
-    .sk-spinner-three-bounce.sk-spinner { margin: 0 auto;width: 70px; text-align: center; } .sk-spinner-three-bounce div { width: 18px; height: 18px; background-color: #333; border-radius: 100%; display: inline-block; -webkit-animation: sk-threeBounceDelay 1.4s infinite ease-in-out; animation: sk-threeBounceDelay 1.4s infinite ease-in-out; -webkit-animation-fill-mode: both; animation-fill-mode: both; } .sk-spinner-three-bounce .sk-bounce1 { -webkit-animation-delay: -0.32s; animation-delay: -0.32s; } .sk-spinner-three-bounce .sk-bounce2 { -webkit-animation-delay: -0.16s; animation-delay: -0.16s; } @-webkit-keyframes sk-threeBounceDelay { 0%, 80%, 100% { -webkit-transform: scale(0); transform: scale(0); } 40% { -webkit-transform: scale(1); transform: scale(1); } } @keyframes sk-threeBounceDelay { 0%, 80%, 100% { -webkit-transform: scale(0); transform: scale(0); } 40% { -webkit-transform: scale(1); transform: scale(1); } }     
+    @import url(base.css);
+  </style>
+  <style>
+    .sk-spinner-three-bounce.sk-spinner { margin: 0 auto;width: 100px; text-align: center; } .sk-spinner-three-bounce div { width: 18px; height: 18px; background-color: #fff; border-radius: 100%; display: inline-block; -webkit-animation: sk-threeBounceDelay 1.4s infinite ease-in-out; animation: sk-threeBounceDelay 1.4s infinite ease-in-out; -webkit-animation-fill-mode: both; animation-fill-mode: both; } .sk-spinner-three-bounce .sk-bounce1 { -webkit-animation-delay: -0.32s; animation-delay: -0.32s; } .sk-spinner-three-bounce .sk-bounce2 { -webkit-animation-delay: -0.16s; animation-delay: -0.16s; } @-webkit-keyframes sk-threeBounceDelay { 0%, 80%, 100% { -webkit-transform: scale(0); transform: scale(0); } 40% { -webkit-transform: scale(1); transform: scale(1); } } @keyframes sk-threeBounceDelay { 0%, 80%, 100% { -webkit-transform: scale(0); transform: scale(0); } 40% { -webkit-transform: scale(1); transform: scale(1); } }     
   </style>
   <header style="display: none">
     <div class="header-inner">
@@ -19,6 +20,7 @@
     <div class="sk-bounce1"></div>
     <div class="sk-bounce2"></div>
     <div class="sk-bounce3"></div>
+    Loading your {uni}verse
   </div>
 
   <div id="main_wrapper">
@@ -27,11 +29,9 @@
     </div>
 
   </div>
-
+  <script src="src/navigation.js" type="text/javascript"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
   <script src="http://cdn.embed.ly/jquery.embedly-3.1.1.min.js" type="text/javascript"></script>
   <script src="bundle.js"></script>
-  <style>
-    @import url(base.css);
-  </style>
+
 </body>

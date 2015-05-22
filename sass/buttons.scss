@@ -1,0 +1,23 @@
+@mixin btn($color) {
+  background: $color;
+  color: white;
+  padding: 5px 10px;
+  font-size: 1em;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background: darken(saturate($color, 22), 1)
+  }
+}
+
+.btn {
+  @include btn($blue)
+}
+
+.btn-orange {
+  @include btn($orange)
+}
+
+.btn-green {
+  @include btn($green)
+}
