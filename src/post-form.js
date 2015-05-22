@@ -25,7 +25,10 @@ module.exports = React.createClass({
     var myself = Myself();
 
     var post = {
-      author: myself.toJSON(),
+      author: {
+        name: myself.get('name'),
+        pkf: myself.get('pkf')
+      },
       content: content
     };
 

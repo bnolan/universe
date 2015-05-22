@@ -57,7 +57,10 @@ var CommentForm = React.createClass({
     var content = React.findDOMNode(this.refs.content).value.trim();
 
     var comment = {
-      author: Myself().toJSON(),
+      author: {
+        name: Myself().get('name'),
+        pkf: Myself().get('pkf')
+      },
       content: content
     };
 
