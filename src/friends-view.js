@@ -50,8 +50,6 @@ module.exports = React.createClass({
 
     return (
       <div>
-        <h1>Friends</h1>
-
         <form onSubmit={this.handleSubmit}>
           <div className='form-row'>
             <label>Name</label>

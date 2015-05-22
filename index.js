@@ -22,7 +22,13 @@ levelDbBackboneAdapter(Backbone, { db: db });
 
 var PostCollection = Backbone.Collection.extend({
   model: PostModel,
-  dbName: 'Posts'
+  dbName: 'Posts',
+
+  whereAuthor: function (author) {
+    return this.filter(function (post) {
+      return post.get('author').pkf === author.get('pkf');
+    });
+  }
 });
 
 var FriendCollection = Backbone.Collection.extend({
@@ -41,7 +47,7 @@ var FriendCollection = Backbone.Collection.extend({
     console.log('prepopulate');
 
     ['nick', 'kelly', 'ben', 'matt'].filter(function (name) {
-      return name !== myself.name;
+      return name !== myself.get('name');
     }).forEach(function (name) {
       var user = User.fromName(name);
       self.create(user);
@@ -49,7 +55,42 @@ var FriendCollection = Backbone.Collection.extend({
   }
 });
 
+
 $('body').addClass('loading');
+
+var Workspace = Backbone.Router.extend({
+
+  routes: {
+    'logout': 'logout',
+    '': 'feed',  
+    "friend/:pkf": "showFriend"   
+  },
+
+  logout: function () {
+    Myself.logout();
+    window.location.hash = "";
+    window.location.reload();
+  },
+
+  feed: function () {
+    start();
+  },
+
+  showFriend: function(pkf) {
+    var friends = window.friends;
+
+    friends.get(pkf)
+
+    React.render(<Feed />, document.getElementById('main_container'));
+
+    // ....
+  }
+});
+
+$(function () {
+  var workspace = new Workspace();
+  Backbone.history.start({pushState: false});
+});
 
 // dont judge me
 window.posts = new PostCollection();
@@ -63,8 +104,8 @@ $('header').show();
 $('header').addClass('animate-header');
 
 function start () {
-  if (!myself) {
-    React.render(<Settings />, document.getElementById('main_container'));
+  if (!myself.isValid()) {
+    React.render(<div><h1>Initial setup</h1><Settings /></div>, document.getElementById('main_container'));
     return;
   }
 
@@ -85,8 +126,29 @@ function start () {
     render();
   });
 
+  signalling.on('connect', function (peer) {
+    posts.whereAuthor(myself).forEach(function (post) {
+      peer.send(post.toJSON());
+    });
+  });
+
+  cleanUpDeadPeers = function () {
+    var deadPeers = [];
+    var connection;
+
+    for (var peer in peers) {
+      connection = peers[peer];
+      if (!connection._channel) {
+        deadPeers.push(peer);
+      }
+    }
+
+    deadPeers.forEach(function(peer) { delete peers[peer]; });
+  };
 
   window.sendMessage = function (message) {
+    cleanUpDeadPeers();
+
     for (var peer in peers) {
       var connection = peers[peer];
 
@@ -107,4 +169,3 @@ function start () {
   render();
 }
 
-start();

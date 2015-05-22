@@ -1,3 +1,5 @@
+var _ = require('underscore');
+var Backbone = require('backbone');
 var SignalHub = require('signalhub');
 var SimplePeer = require('simple-peer');
 var myself = require('./myself')();
@@ -8,34 +10,40 @@ var hub = SignalHub(
   'universe'
 );
 
-// TODO - use actual pkf instead of name
-var myPkf = myself.get('name');
+var myPkf = (myself && myself.get('pkf'));
 
 var constructPeer = function (friend, initiator) {
-  console.log('Constructing peer for', friend);
   var newPeer = new SimplePeer({ trickle: false, initiator: initiator });
 
   newPeer.on('error', function (err) { console.log(friend, 'error', err); });
 
   newPeer.on('connect', function () {
     console.log('Connected to', friend);
+
+    Signalling.trigger('connect', newPeer);
   });
 
   newPeer.on('data', function (data) {
     console.log('Got a message from', friend, ':', data);
+
+    Signalling.trigger('data', newPeer);
+
     postMessage(data);
   });
 
   newPeer.on('signal', function (data) {
     console.log('Sending a', initiator ? 'initiator' : 'non-initiator', 'response to', friend);
-    hub.broadcast('/' + friend, JSON.stringify({name: myPkf, data: data, initiator: initiator}));
+
+    Signalling.trigger('signal', newPeer);
+
+    hub.broadcast('/' + friend, JSON.stringify({pkf: myPkf, data: data, initiator: initiator}));
   });
 
   return newPeer;
 }
 
 var registerPeer = function (data) {
-  var friend = data.name;
+  var friend = data.pkf;
   var signallingData = data.data;
   var initiator = data.initiator;
   var newPeer;
@@ -77,11 +85,10 @@ var registerPeer = function (data) {
 var Signalling = {
   subscribe: function () {
     console.log('Subscribing to my own signalhub');
-    console.log(myPkf);
     hub.subscribe('/' + myPkf)
       .on('data', function (data) {
         var initiator = JSON.parse(data).initiator;
-        console.log(initiator ? 'Signal' : 'Response', 'in my channel from ' + JSON.parse(data).name);
+        console.log(initiator ? 'Signal' : 'Response', 'in my channel from ' + JSON.parse(data).pkf);
         registerPeer(JSON.parse(data));
       });
   },
@@ -93,5 +100,7 @@ var Signalling = {
     });
   }
 };
+
+_.extend(Signalling, Backbone.Events);
 
 module.exports = Signalling;
