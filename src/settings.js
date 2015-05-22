@@ -54,7 +54,7 @@ module.exports = React.createClass({
           If you are new to universe, press 'generate keys' to create a unique set of keys for yourself.
         </p>
 
-        <button onClick={this.generateKeys}>Generate keys</button>
+        <button className='btn' onClick={this.generateKeys}>Generate keys</button>
 
         <div className="form-row">
           <label>PKF</label>
