@@ -8,9 +8,6 @@
   border-radius: 3px;
   transition: background .2s linear;
   @include span-columns(12);
-  &:hover {
-    background: #fff;
-  }
 
   .author {
     font-weight: bold;
@@ -31,6 +28,9 @@
   margin-bottom: 20px;
   padding: 10px;
   box-sizing: border-box;
+  float: left;
+  clear: both;
+  width: 100%;
 
   input, textarea{
     font: inherit;
@@ -45,6 +45,17 @@
   }
 }
 
-.commentList .post {
+.comment-box {
+  margin-top: 20px;
+}
+
+.comment-list .post {
+  &:first-child {
+    border-top: $base-border;
+  }
   box-shadow: none;
+  margin-bottom: 0;
+  border: 0;
+  border-bottom: $base-border;
+  padding: 20px;
 }
