@@ -126,3 +126,16 @@ table{
     text-align: left;
   }
 }
+
+.comment-box{
+  .empty{
+    width: 100%;
+    height: 24px;
+    resize: none;
+    margin-top: 5px;
+    border-color: #ccc;
+    padding: 0;
+    line-height: 24px;
+    font-size: 0.8em;
+  }
+}

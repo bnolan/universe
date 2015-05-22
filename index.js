@@ -10,6 +10,7 @@ var Myself = require('./src/myself');
 var User = require('./src/user');
 
 var PageView = require('./src/page-view');
+var UserView = require('./src/user-view');
 var Myself = require('./src/myself');
 var PostModel = require('./src/post-model');
 var CommentModel = require('./src/comment-model');
@@ -18,7 +19,6 @@ var signalling = require('./src/signalling');
 
 var db = level('./mydb2', { valueEncoding: 'json' });
 var myself = Myself();
-
 
 levelDbBackboneAdapter(Backbone, { db: db });
 
@@ -61,55 +61,24 @@ var FriendCollection = Backbone.Collection.extend({
   },
 
   prepopulate: function () {
-    var self = this;
+    this.create({
+      name: 'Ben Nolan',
+      pkf: 'a3:73:b3:8c:bb:fc:64:cf:d4:5c:8a:68:97:82:5a:b1:8f:c8:96:ce'
+    });
 
-    console.log('prepopulate');
+    this.create({
+      name: 'Nicki Minaj',
+      pkf: 'ee:e4:89:64:19:51:79:07:57:41:6a:fd:98:cc:60:8a:b5:a4:9b:89'
+    });
 
-    ['nick', 'kelly', 'ben', 'matt'].filter(function (name) {
-      return name !== myself.get('name');
-    }).forEach(function (name) {
-      var user = User.fromName(name);
-      self.create(user);
+    this.create({
+      name: 'Matt Sroufe',
+      pkf: '17:15:4e:08:0f:5d:20:9b:3d:67:ee:34:73:39:63:c6:52:14:c8:8c'
     });
   }
 });
 
-
 $('body').addClass('loading');
-
-var Workspace = Backbone.Router.extend({
-
-  routes: {
-    'logout': 'logout',
-    '': 'feed',  
-    "friend/:pkf": "showFriend"   
-  },
-
-  logout: function () {
-    Myself.logout();
-    window.location.hash = "";
-    window.location.reload();
-  },
-
-  feed: function () {
-    start();
-  },
-
-  showFriend: function(pkf) {
-    var friends = window.friends;
-
-    friends.get(pkf)
-
-    React.render(<Feed />, document.getElementById('main_container'));
-
-    // ....
-  }
-});
-
-$(function () {
-  var workspace = new Workspace();
-  Backbone.history.start({pushState: false});
-});
 
 // dont judge me
 window.posts = new PostCollection();
@@ -124,16 +93,24 @@ $('body').removeClass('loading');
 $('header').show();
 $('header').addClass('animate-header');
 
-function start () {
-  if (!myself.isValid()) {
-    React.render(<div><h1>Initial setup</h1><Settings /></div>, document.getElementById('main_container'));
-    return;
-  }
+// hack days yo!
+var peers = window.peers;
+var posts = window.posts;
+var comments = window.comments;
+var friends = window.friends;
 
-  var peers = window.peers;
-  var posts = window.posts;
-  var comments = window.comments;
-  var friends = window.friends;
+function startRouter () {
+  var workspace = new Workspace();
+  workspace;
+  Backbone.history.start({pushState: false});
+}
+
+function fetchCollections (callback) {
+  posts.fetch().then(function () {
+    comments.fetch().then(function () {
+      callback();
+    });
+  });
 
   friends.fetch().then(function () {
     if (friends.isEmpty()) {
@@ -144,21 +121,47 @@ function start () {
     signalling.registerWithFriends(friends.getPkfs());
   });
 
-  posts.fetch().then(function () {
-    render();
-  });
-
-  comments.fetch().then(function () {
-    render();
-  });
-
   signalling.on('connect', function (peer) {
     posts.whereAuthor(myself).forEach(function (post) {
       peer.send(post.toJSON());
     });
   });
+}
 
-  cleanUpDeadPeers = function () {
+var Workspace = Backbone.Router.extend({
+  routes: {
+    '': 'home',
+    'logout': 'logout',
+    'friends/:pkf': 'showFriend'
+  },
+
+  logout: function () {
+    Myself.logout();
+    window.location.hash = '';
+    window.location.reload();
+  },
+
+  home: function () {
+    if (!myself.isValid()) {
+      React.render(<div><h1>Initial setup</h1><Settings /></div>, document.getElementById('main_container'));
+      return;
+    }
+
+    React.render(<PageView />, document.getElementById('main_container'));
+  },
+
+  showFriend: function (pkf) {
+    var friends = window.friends;
+    var friend = friends.get(pkf);
+
+    React.render(<UserView friend={friend} />, document.getElementById('main_container'));
+  }
+});
+
+// Lets get it started...
+
+fetchCollections(function () {
+  var cleanUpDeadPeers = function () {
     var deadPeers = [];
     var connection;
 
@@ -169,7 +172,7 @@ function start () {
       }
     }
 
-    deadPeers.forEach(function(peer) { delete peers[peer]; });
+    deadPeers.forEach(function (peer) { delete peers[peer]; });
   };
 
   window.sendMessage = function (message) {
@@ -184,18 +187,6 @@ function start () {
     }
   };
 
-  function render () {
-    React.render(<PageView />, document.getElementById('main_container'));
-  }
-
-  posts.on('add', function (post) {
-    render();
-  });
-
-  comments.on('add', function (comment) {
-    render();
-  });
-
-  render();
-}
+  startRouter();
+});
 

@@ -28,6 +28,18 @@ module.exports = React.createClass({
     this.render();
   },
 
+  componentDidMount: function () {
+    var self = this;
+
+    window.posts.on('add', function (post) {
+      self.forceUpdate();
+    });
+
+    window.comments.on('add', function (comment) {
+      self.forceUpdate();
+    });
+  },
+
   render: function () {
     var myself = Myself();
     var content;

@@ -20,7 +20,7 @@ var Comment = React.createClass({
 });
 
 var CommentList = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     return {data: []};
   },
 
@@ -35,7 +35,7 @@ var CommentList = React.createClass({
       );
     });
     return (
-      <div className='commentList'>
+      <div className='comment-list'>
         {commentNodes}
       </div>
     );
@@ -43,7 +43,6 @@ var CommentList = React.createClass({
 });
 
 var CommentForm = React.createClass({
-
   createOnEnter: function (e) {
     var enterKey = 13;
 
@@ -91,15 +90,29 @@ var CommentBox = React.createClass({
     postMessage('Comment', comment);
   },
 
-  render: function() {
-    return (
-      <div className="commentBox">
-        <br />
-        <h3>Comments</h3>
-        <CommentList ref='commentList' />
-        <CommentForm onSubmit={this.handleSubmit} />
-      </div>
-    );
+  showComments: function () {
+    this.setState({ visible: true });
+  },
+
+  getInitialState: function () {
+    return { visible: false };
+  },
+
+  render: function () {
+    if (this.state.visible) {
+      return (
+        <div className='comment-box'>
+          <CommentList ref='commentList' />
+          <CommentForm onSubmit={this.handleSubmit} />
+        </div>
+      );
+    } else {
+      return (
+        <div className='comment-box'>
+          <textarea className='empty' placeholder='Add a comment...' onClick={this.showComments} />
+        </div>
+      );
+    }
   }
 });
 
