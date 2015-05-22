@@ -37,7 +37,7 @@ var constructPeer = function (pkf, initiator) {
 
     Signalling.trigger('data', newPeer);
 
-    postMessage(data);
+    postMessage('Post', data);
   });
 
   newPeer.on('signal', function (data) {
@@ -65,17 +65,12 @@ var registerPeer = function (data) {
   }
 
   if (peers[pkf]) {
-    console.log('Found existing peer ', friend.get('name'));
     if (initiator) {
-      if (peers[pkf].initiator) {
-        console.log('Received intiator connection from', friend.get('name'), ', cleaning up old initiator connection');
-        delete peers[pkf];
-      }
-    } else {
-      if (peers[pkf].initiator === false) {
-        console.log('Received intiator connection from', friend.get('name'), ', cleaning up old non-initiator connection');
-        delete peers[pkf];
-      }
+      console.log("Received intiator connection from", friend.get('name'), ", cleaning up old connection");
+      delete peers[pkf];
+    } else if (peers[pkf].initiator === false) {
+      console.log("Received intiator connection from", friend.get('name'), ", cleaning up old non-initiator connection");
+      delete peers[pkf];
     }
 
     if (peers[pkf]) {
