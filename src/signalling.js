@@ -11,7 +11,7 @@ var hub = SignalHub(
 );
 
 // TODO - use actual pkf instead of name
-var myPkf = myself.get('name');
+var myPkf = (myself && myself.get('name'));
 
 var constructPeer = function (friend, initiator) {
   console.log('Constructing peer for', friend);
@@ -21,15 +21,23 @@ var constructPeer = function (friend, initiator) {
 
   newPeer.on('connect', function () {
     console.log('Connected to', friend);
+
+    Signalling.trigger('connect', newPeer);
   });
 
   newPeer.on('data', function (data) {
     console.log('Got a message from', friend, ':', data);
+
+    Signalling.trigger('data', newPeer);
+
     postMessage(data);
   });
 
   newPeer.on('signal', function (data) {
     console.log('Sending a', initiator ? 'initiator' : 'non-initiator', 'response to', friend);
+
+    Signalling.trigger('signal', newPeer);
+
     hub.broadcast('/' + friend, JSON.stringify({name: myPkf, data: data, initiator: initiator}));
   });
 

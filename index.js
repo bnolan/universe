@@ -47,7 +47,7 @@ var FriendCollection = Backbone.Collection.extend({
     console.log('prepopulate');
 
     ['nick', 'kelly', 'ben', 'matt'].filter(function (name) {
-      return name !== myself.name;
+      return name !== myself.get('name');
     }).forEach(function (name) {
       var user = User.fromName(name);
       self.create(user);
