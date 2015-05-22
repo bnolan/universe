@@ -41,6 +41,12 @@ var FriendCollection = Backbone.Collection.extend({
     });
   },
 
+  findByPkf: function (pkf) {
+    return this.find(function (friend) {
+      return friend.get('pkf') === pkf;
+    });
+  },
+
   prepopulate: function () {
     var self = this;
 
