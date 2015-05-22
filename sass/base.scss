@@ -43,14 +43,16 @@ body {
 
 header {
   border-bottom: 10px solid darken($light-gray, 8%);
-  background: url("/images/space-bg.jpg") $dark-gray center -210px;
+  background-image: url("/images/space-bg.jpg");
   background-size: cover;
-  height: 120px;
+  background-position: center -210px;
+  height: 156px;
   margin-bottom: 40px;
   padding-top: 10px;
   transition: background 1.1s ease-in-out;
   &.animate-header {
-    background: url("/images/space-bg.jpg") $dark-gray center 0;
+    background-size: cover;
+    background-position: center -25px;
   }
   .header-inner {
     @include outer-container;

@@ -18,6 +18,7 @@ var signalling = require('./src/signalling');
 var db = level('./mydb2', { valueEncoding: 'json' });
 var myself = Myself();
 
+
 levelDbBackboneAdapter(Backbone, { db: db });
 
 var PostCollection = Backbone.Collection.extend({
@@ -102,6 +103,7 @@ $(function () {
 window.posts = new PostCollection();
 window.friends = new FriendCollection();
 window.peers = {};
+window.$ = $;
 
 // dont judge me either
 $('.sk-spinner').remove();
