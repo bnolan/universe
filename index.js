@@ -26,7 +26,7 @@ var PostCollection = Backbone.Collection.extend({
 
   whereAuthor: function (author) {
     return this.filter(function (post) {
-      return post.author.pkf === author.pkf;
+      return post.get('author').pkf === author.get('pkf');
     });
   }
 });
@@ -122,7 +122,7 @@ function start () {
   });
 
   signalling.on('connect', function (peer) {
-    posts.whereAuthor(myself).each(function (post) {
+    posts.whereAuthor(myself).forEach(function (post) {
       peer.send(post.toJSON());
     });
   });
