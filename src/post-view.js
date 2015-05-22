@@ -10,7 +10,7 @@ var Comment = React.createClass({
 
     return (
       <div className='post'>
-        <h3 className='author'>{this.props.data.author}</h3>
+        <h3 className='author'>{this.props.data.author.name}</h3>
         <div className='content'>{this.props.data.content}</div>
         <small>{ timeago(createdAt) }</small>
       </div>
