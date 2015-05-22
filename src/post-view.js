@@ -11,8 +11,8 @@ var Comment = React.createClass({
 
     return (
       <div className='post'>
-        <h3 className='author'>{this.props.data.author.name}</h3>
-        <div className='content'>{this.props.data.content}</div>
+        <h3 className='author'>{this.props.data.attributes.author.name}</h3>
+        <div className='content'>{this.props.data.attributes.content}</div>
         <small>{ timeago(createdAt) }</small>
       </div>
     );
@@ -20,16 +20,9 @@ var Comment = React.createClass({
 });
 
 var CommentList = React.createClass({
-  getInitialState: function () {
-    return {data: []};
-  },
-
-  addComment: function (comment) {
-    this.setState({data: this.state.data.concat([comment])});
-  },
 
   render: function() {
-    var commentNodes = this.state.data.map(function (comment) {
+    var commentNodes = this.props.comments.map(function (comment) {
       return (
         <Comment data={comment} />
       );
@@ -86,7 +79,7 @@ var CommentForm = React.createClass({
 
 var CommentBox = React.createClass({
   handleSubmit: function (comment) {
-    this.refs.commentList.addComment(comment);
+    comment.post_id = this.props.data.id;
     sendMessage('Comment', comment);
     postMessage('Comment', comment);
   },
@@ -96,14 +89,16 @@ var CommentBox = React.createClass({
   },
 
   getInitialState: function () {
-    return { visible: false };
+    return { visible: true };
   },
 
   render: function () {
+    console.log(comments.wherePost(this.props.data.id).length)
+    console.log(this.props.data.id)
     if (this.state.visible) {
       return (
         <div className='comment-box'>
-          <CommentList ref='commentList' />
+          <CommentList ref='commentList' post_id={this.props.data.id} comments={comments.wherePost(this.props.data.id)} />
           <CommentForm onSubmit={this.handleSubmit} />
         </div>
       );

@@ -37,9 +37,9 @@ var CommentCollection = Backbone.Collection.extend({
   model: CommentModel,
   dbName: 'Comments',
 
-  wherePost: function (post) {
+  wherePost: function (post_id) {
     return this.filter(function (comment) {
-      return comment.post_id === post.id;
+      return comment.get('post_id') === post_id;
     });
   }
 });
