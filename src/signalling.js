@@ -1,3 +1,5 @@
+/* global peers */
+
 var _ = require('underscore');
 var Backbone = require('backbone');
 var SignalHub = require('signalhub');
@@ -12,19 +14,26 @@ var hub = SignalHub(
 
 var myPkf = (myself && myself.get('pkf'));
 
-var constructPeer = function (friend, initiator) {
+var constructPeer = function (pkf, initiator) {
+  var friend = window.friends.findByPkf(pkf);
+
+  if (!friend) {
+    console.log('Construct Peer from non-friend. Abort!');
+    return;
+  }
+
   var newPeer = new SimplePeer({ trickle: false, initiator: initiator });
 
-  newPeer.on('error', function (err) { console.log(friend, 'error', err); });
+  newPeer.on('error', function (err) { console.log(friend.get('name'), 'error', err); });
 
   newPeer.on('connect', function () {
-    console.log('Connected to', friend);
+    console.log('Connected to', friend.get('name'));
 
     Signalling.trigger('connect', newPeer);
   });
 
   newPeer.on('data', function (data) {
-    console.log('Got a message from', friend, ':', data);
+    console.log('Got a message from', friend.get('name'), ':', data);
 
     Signalling.trigger('data', newPeer);
 
@@ -32,60 +41,60 @@ var constructPeer = function (friend, initiator) {
   });
 
   newPeer.on('signal', function (data) {
-    console.log('Sending a', initiator ? 'initiator' : 'non-initiator', 'response to', friend);
+    console.log('Sending a', initiator ? 'initiator' : 'non-initiator', 'response to', friend.get('name'));
 
     Signalling.trigger('signal', newPeer);
 
-    hub.broadcast('/' + friend, JSON.stringify({pkf: myPkf, data: data, initiator: initiator}));
+    hub.broadcast(pkf, JSON.stringify({pkf: myPkf, data: data, initiator: initiator}));
   });
 
   return newPeer;
-}
+};
 
 var registerPeer = function (data) {
-  var friend = data.pkf;
+  var pkf = data.pkf;
+  var friend = window.friends.findByPkf(pkf);
+
   var signallingData = data.data;
   var initiator = data.initiator;
   var newPeer;
 
-  if (friend == myPkf) {
+  if (pkf === myPkf) {
     console.log('got a message from myself');
     return;
   }
 
-  if (peers[friend]) {
-    console.log("Found existing peer ", friend);
+  if (peers[pkf]) {
+    console.log('Found existing peer ', friend.get('name'));
     if (initiator) {
-      if (peers[friend].initiator) {
-        console.log("Received intiator connection from", friend, ", cleaning up old initiator connection");
-        delete peers[friend];
+      if (peers[pkf].initiator) {
+        console.log('Received intiator connection from', friend.get('name'), ', cleaning up old initiator connection');
+        delete peers[pkf];
       }
     } else {
-      if (peers[friend].initiator === false) {
-        console.log("Received intiator connection from", friend, ", cleaning up old non-initiator connection");
-        delete peers[friend];
+      if (peers[pkf].initiator === false) {
+        console.log('Received intiator connection from', friend.get('name'), ', cleaning up old non-initiator connection');
+        delete peers[pkf];
       }
     }
 
-    if (peers[friend]) {
-      newPeer = peers[friend];
+    if (peers[pkf]) {
+      newPeer = peers[pkf];
     }
   }
 
   if (!newPeer) {
-    console.log("Created new peer for", friend);
-    peers[friend] = newPeer = constructPeer(friend, !initiator)
+    console.log('Created new peer for', friend.get('name'));
+    peers[pkf] = newPeer = constructPeer(pkf, !initiator);
   }
 
   newPeer.signal(signallingData);
 };
 
-
-
 var Signalling = {
   subscribe: function () {
     console.log('Subscribing to my own signalhub');
-    hub.subscribe('/' + myPkf)
+    hub.subscribe(myPkf)
       .on('data', function (data) {
         var initiator = JSON.parse(data).initiator;
         console.log(initiator ? 'Signal' : 'Response', 'in my channel from ' + JSON.parse(data).pkf);
