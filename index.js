@@ -55,6 +55,41 @@ var FriendCollection = Backbone.Collection.extend({
   }
 });
 
+var Workspace = Backbone.Router.extend({
+
+  routes: {
+    'logout': 'logout',
+    '': 'feed',  
+    "friend/:pkf": "showFriend"   
+  },
+
+  logout: function () {
+    Myself.logout();
+    window.location.hash = "";
+    window.location.reload();
+  },
+
+  feed: function () {
+    start();
+  },
+
+  showFriend: function(pkf) {
+    var friends = window.friends;
+
+    friends.get(pkf)
+
+    React.render(<Feed />, document.getElementById('main_container'));
+
+    // ....
+  }
+});
+
+$(function () {
+  var workspace = new Workspace();
+  Backbone.history.start({pushState: false});
+});
+
+
 // dont judge me
 window.posts = new PostCollection();
 window.friends = new FriendCollection();
@@ -64,8 +99,8 @@ $('.sk-spinner').remove();
 $('header').show();
 
 function start () {
-  if (!myself) {
-    React.render(<Settings />, document.getElementById('main_container'));
+  if (!myself.isValid()) {
+    React.render(<div><h1>Initial setup</h1><Settings /></div>, document.getElementById('main_container'));
     return;
   }
 

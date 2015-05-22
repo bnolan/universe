@@ -35,7 +35,7 @@ module.exports = React.createClass({
     if (this.state.tab === 'feed') {
       var posts = window.posts.sortBy(function (post) {
         return -post.get('createdAt');
-      }).slice(0,10);
+      }).slice(0, 10);
 
       content = <Feed name={myself.name} posts={posts} />;
     } else if (this.state.tab === 'settings') {
@@ -52,6 +52,7 @@ module.exports = React.createClass({
           <li onClick={this.showFeed}>Feed</li>
           <li onClick={this.showFriends}>Friends</li>
           <li onClick={this.showSettings}>Settings</li>
+          <li><a href='#logout'>Logout</a></li>
         </ul>
 
         { content }
