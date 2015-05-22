@@ -61,19 +61,22 @@ var FriendCollection = Backbone.Collection.extend({
   },
 
   prepopulate: function () {
-    var self = this;
+    this.create({
+      name: 'Ben Nolan',
+      pkf: 'a3:73:b3:8c:bb:fc:64:cf:d4:5c:8a:68:97:82:5a:b1:8f:c8:96:ce'
+    });
 
-    console.log('prepopulate');
+    this.create({
+      name: 'Nicki Minaj',
+      pkf: 'ee:e4:89:64:19:51:79:07:57:41:6a:fd:98:cc:60:8a:b5:a4:9b:89'
+    });
 
-    ['nick', 'kelly', 'ben', 'matt'].filter(function (name) {
-      return name !== myself.get('name');
-    }).forEach(function (name) {
-      var user = User.fromName(name);
-      self.create(user);
+    this.create({
+      name: 'Matt Sroufe',
+      pkf: '17:15:4e:08:0f:5d:20:9b:3d:67:ee:34:73:39:63:c6:52:14:c8:8c'
     });
   }
 });
-
 
 $('body').addClass('loading');
 
