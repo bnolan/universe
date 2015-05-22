@@ -151,9 +151,7 @@ var Workspace = Backbone.Router.extend({
   },
 
   showFriend: function (pkf) {
-    var friends = window.friends;
-    var friend = friends.get(pkf);
-
+    var friend = friends.findByPkf(pkf);
     React.render(<UserView friend={friend} />, document.getElementById('main_container'));
   }
 });
