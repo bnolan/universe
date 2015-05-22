@@ -76,7 +76,7 @@ module.exports = React.createClass({
           {this.props.friends.map(function (friend) {
             return (
               <tr key={friend.id}>
-                <td>{ friend.get('name') }</td>
+                <td><a href={ '#friends/' + friend.get('pkf') }>{ friend.get('name') }</a></td>
                 <td>{ friend.get('pkf') }</td>
                 <td><button className='btn-orange' onClick={self.onTerminate.bind(self, friend.id)}>Terminate friendship</button></td>
               </tr>

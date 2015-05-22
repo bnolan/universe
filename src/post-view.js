@@ -43,7 +43,6 @@ var CommentList = React.createClass({
 });
 
 var CommentForm = React.createClass({
-
   createOnEnter: function (e) {
     var enterKey = 13;
 

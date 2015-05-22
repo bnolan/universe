@@ -25,6 +25,18 @@ var User = Backbone.Model.extend({
       privateKey: key.exportKey('pkcs8-private'),
       pkf: fingerprint(key.exportKey('pkcs8-public'), 'sha1')
     });
+  },
+
+  isOnline: function () {
+    var peers = window.peers;
+
+    for (var pkf in peers) {
+      if ((pkf === this.get('pkf')) && (peers[pkf]._channel.readyState === 'open')) {
+        return true;
+      }
+    }
+
+    return false;
   }
 });
 
