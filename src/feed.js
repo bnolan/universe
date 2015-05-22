@@ -12,8 +12,6 @@ module.exports = React.createClass({
   render: function () {
     return (
       <div>
-        <h1>Newsfeed</h1>
-
         <PostForm />
 
         {this.props.posts.map(function (result) {

@@ -49,10 +49,9 @@ module.exports = React.createClass({
     return (
       <div>
         <ul className='tabs'>
-          <li onClick={this.showFeed}>Feed</li>
+          <li onClick={this.showFeed}>Newsfeed</li>
           <li onClick={this.showFriends}>Friends</li>
           <li onClick={this.showSettings}>Settings</li>
-          <li><a href='#logout'>Logout</a></li>
         </ul>
 
         { content }
