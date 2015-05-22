@@ -164,4 +164,3 @@ function start () {
   render();
 }
 
-start();
