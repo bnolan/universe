@@ -123,7 +123,7 @@ function fetchCollections (callback) {
 
   signalling.on('connect', function (peer) {
     posts.whereAuthor(myself).forEach(function (post) {
-      peer.send(post.toJSON());
+      peer.send({type: 'Post', payload: post.toJSON()});
     });
   });
 }
@@ -173,14 +173,14 @@ fetchCollections(function () {
     deadPeers.forEach(function (peer) { delete peers[peer]; });
   };
 
-  window.sendMessage = function (message) {
+  window.sendMessage = function (type, payload) {
     cleanUpDeadPeers();
 
     for (var peer in peers) {
       var connection = peers[peer];
 
       if (connection._channel.readyState === 'open') {
-        connection.send(message);
+        connection.send({type: type, payload: payload});
       }
     }
   };

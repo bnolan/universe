@@ -37,7 +37,10 @@ var constructPeer = function (pkf, initiator) {
 
     Signalling.trigger('data', newPeer);
 
-    postMessage('Post', data);
+    var payload = data.payload;
+    var type = data.type;
+
+    postMessage(type, payload);
   });
 
   newPeer.on('signal', function (data) {
